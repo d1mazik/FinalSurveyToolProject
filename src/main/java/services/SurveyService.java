@@ -4,8 +4,6 @@ import models.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.server.ResponseStatusException;
 import repositories.SurveyRepository;
 
 
@@ -25,6 +23,9 @@ public class SurveyService {
 
     @Transactional
     public void deleteSurvey(Long id) {
+        if (!surveyRepository.existsById(id)) {
+            throw new IllegalStateException("Survey with id " + id + " does not exist");
+        }
         surveyRepository.deleteById(id);
     }
 
