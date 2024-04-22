@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.SurveyRepository;
 
+import java.util.NoSuchElementException;
+
 
 @Service
 public class SurveyService {
@@ -24,9 +26,15 @@ public class SurveyService {
     @Transactional
     public void deleteSurvey(Long id) {
         if (!surveyRepository.existsById(id)) {
-            throw new IllegalStateException("Survey with id " + id + " does not exist");
+            throw new NoSuchElementException("Survey with id " + id + " was not found");
         }
         surveyRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Survey getSurveyById(Long id) {
+        return surveyRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Survey with id: " + id + " was not found"));
     }
 
 
