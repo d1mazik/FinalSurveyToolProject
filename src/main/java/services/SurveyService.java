@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.SurveyRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -35,6 +36,11 @@ public class SurveyService {
     public Survey getSurveyById(Long id) {
         return surveyRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Survey with id: " + id + " was not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Survey> getAllSurveys() {
+        return surveyRepository.findAll();
     }
 
 
