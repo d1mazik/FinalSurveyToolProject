@@ -1,8 +1,11 @@
 package Controllers;
 
+import models.Survey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import services.SurveyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,26 +14,31 @@ import java.util.List;
 @RequestMapping("/api/serveys")
 public class SurveyController {
 
-    private List<String> surveys = new ArrayList<>();
+    private List<Survey> surveys = new ArrayList<>();
+    private final SurveyService surveyService;
+
+    @Autowired
+    public SurveyController(SurveyService surveyService) {
+        this.surveyService = surveyService;
+    }
+
 
     @GetMapping
-    public ResponseEntity<List<String>> getAllSurveys() {
+    public ResponseEntity<List<Survey>> getAllSurveys() {
+        List<Survey> surveys = surveyService.getAllSurveys();
         return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> addSurvey(@RequestBody String survey) {
-        return new ResponseEntity<>("Survey added successfully", HttpStatus.CREATED);
+    public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey) {
+        Survey createdSurvey = surveyService.CreateSurvey(survey);
+        return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
     }
 
-    @DeleteMapping ("/{index}")
-    public ResponseEntity<String> deleteSurvey(@PathVariable int index) {
-        try {
-            surveys.remove(index);
-            return new ResponseEntity<>("Survey deleted successfully", HttpStatus.OK);
-        }  catch (IndexOutOfBoundsException e) {
-            return new ResponseEntity<>("Index out of bounds", HttpStatus.BAD_REQUEST);
-        }
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<String> deleteSurvey(@PathVariable Long id) {
+            surveyService.deleteSurvey(id);
+            return ResponseEntity.ok("Survey deleted successfully");
     }
 
 
