@@ -1,4 +1,5 @@
 package com.exam.surveytool.models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
+    @JsonBackReference
     private Survey survey;
 
     @PrePersist
