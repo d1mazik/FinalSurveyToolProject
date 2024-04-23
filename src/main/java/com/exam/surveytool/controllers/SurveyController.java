@@ -31,7 +31,7 @@ public class SurveyController {
 
     @PostMapping
     public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey) {
-        Survey createdSurvey = surveyService.CreateSurvey(survey);
+        Survey createdSurvey = surveyService.createSurvey(survey);
         return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
     }
 

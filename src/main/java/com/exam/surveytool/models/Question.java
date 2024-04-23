@@ -1,10 +1,12 @@
 package com.exam.surveytool.models;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "question")
+@Data
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
