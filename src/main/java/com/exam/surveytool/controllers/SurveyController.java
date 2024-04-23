@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/serveys")
+@RequestMapping("/api/surveys")
 public class SurveyController {
 
     private List<Survey> surveys = new ArrayList<>();
