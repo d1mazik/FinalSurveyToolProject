@@ -1,4 +1,4 @@
-package Controllers;
+package controllers;
 
 import models.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
