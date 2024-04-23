@@ -1,6 +1,6 @@
-package repositories;
+package com.exam.surveytool.repositories;
 
-import models.Survey;
+import com.exam.surveytool.models.Survey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

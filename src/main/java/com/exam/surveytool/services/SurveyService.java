@@ -1,10 +1,10 @@
-package services;
+package com.exam.surveytool.services;
 
-import models.Survey;
+import com.exam.surveytool.models.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import repositories.SurveyRepository;
+import com.exam.surveytool.repositories.SurveyRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 

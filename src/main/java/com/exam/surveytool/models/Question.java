@@ -1,4 +1,4 @@
-package models;
+package com.exam.surveytool.models;
 import jakarta.persistence.*;
 
 @Entity
