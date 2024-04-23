@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repositories.SurveyRepository;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -30,6 +29,19 @@ public class SurveyService {
             throw new NoSuchElementException("Survey with id " + id + " was not found");
         }
         surveyRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Survey updateSurvey(Long id, Survey surveyDetails) {
+        Survey existingSurvey = surveyRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Survey with id: " + id + " was not found"));
+
+        // Uppdatera de fält som behövs från surveyDetails
+        existingSurvey.setTitle(surveyDetails.getTitle());
+        existingSurvey.setDescription(surveyDetails.getDescription());
+
+        // onSave eller onUpdate metoder i Survey-klassen kommer automatiskt att hantera createdAt och updatedAt.
+        return surveyRepository.save(existingSurvey);
     }
 
     @Transactional(readOnly = true)
