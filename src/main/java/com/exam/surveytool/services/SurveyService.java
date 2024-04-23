@@ -19,7 +19,7 @@ public class SurveyService {
     }
 
     @Transactional
-    public Survey CreateSurvey(Survey survey) {
+    public Survey createSurvey(Survey survey) {
         return surveyRepository.save(survey);
     }
 
