@@ -54,6 +54,4 @@ public class SurveyService {
     public List<Survey> getAllSurveys() {
         return surveyRepository.findAll();
     }
-
-
 }
