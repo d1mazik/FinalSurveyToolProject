@@ -36,15 +36,16 @@ public class QuestionService {
         questionRepository.deleteById(id);
     }
 
-    public Optional<Question> updateQuestion(Long id, Question questionDetails) {
-        Optional<Question> optionalQuestion = questionRepository.findById(id);
-        if (optionalQuestion.isPresent()) {
-            Question question = optionalQuestion.get();
-            question.setType(questionDetails.getType());
-            question.setText(questionDetails.getText());
-            return Optional.of(questionRepository.save(question));
-        }
-        return Optional.empty();
+    public Question updateQuestion(Long id, Question questionDetails) {
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Question with id " + id + " not found"));
+
+        // Uppdatera frågans attribut
+        question.setType(questionDetails.getType());
+        question.setText(questionDetails.getText());
+
+        // Spara och returnera den uppdaterade frågan
+        return questionRepository.save(question);
     }
 
     public List<Question> findAllQuestionsBySurvey(Long surveyId) {

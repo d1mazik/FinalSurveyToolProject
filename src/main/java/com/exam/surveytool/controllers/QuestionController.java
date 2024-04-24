@@ -64,9 +64,14 @@ public class QuestionController {
     // Uppdatera en befintlig fråga
     @PutMapping("/{id}")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
-        Optional<Question> updatedQuestion = questionService.updateQuestion(id, question);
-        return updatedQuestion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Question updatedQuestion = questionService.updateQuestion(id, question);
+        if (updatedQuestion != null) {
+            return ResponseEntity.ok(updatedQuestion);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     // Ta bort en fråga
     @DeleteMapping("/{id}")
