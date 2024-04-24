@@ -1,5 +1,8 @@
 package com.exam.surveytool.services;
 
+import com.exam.surveytool.dtos.QuestionDTO;
+import com.exam.surveytool.enums.EQuestionType;
+import com.exam.surveytool.models.Option;
 import com.exam.surveytool.models.Question;
 import com.exam.surveytool.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -23,7 +27,22 @@ public class QuestionService {
 
 
     @Transactional
-    public Question createQuestion (Question question) {
+    public Question createQuestion (QuestionDTO questionDTO) { //modifierade with DTO att hantera olika frågetyper
+        Question question = new Question();
+        question.setType(questionDTO.getType());
+        question.setText(questionDTO.getType() == EQuestionType.TEXT ? questionDTO.getText() : null);
+
+        if (questionDTO.getType() == EQuestionType.OPTIONS && questionDTO.getOptions() != null) {
+            question.setOptions(questionDTO.getOptions().stream()
+                    .map(text -> new Option(null,text, question))//
+                    .collect(Collectors.toList()));
+        }
+
+        if (questionDTO.getType() == EQuestionType.SCALE) {
+            question.setMinScale(questionDTO.getMinScale());
+            question.setMaxScale(questionDTO.getMaxScale());
+        }
+
         return questionRepository.save(question);
     }
 
