@@ -1,5 +1,6 @@
 package com.exam.surveytool.controllers;
 
+import com.exam.surveytool.dtos.QuestionDTO;
 import com.exam.surveytool.models.Question;
 import com.exam.surveytool.models.Survey;
 import com.exam.surveytool.services.QuestionService;
@@ -25,35 +26,32 @@ public class QuestionController {
         this.surveyService = surveyService;
     }
 
-    // Skapa en ny fråga knuten till en undersökning
-    @PostMapping
-    public ResponseEntity<?> createQuestion(@RequestBody Question question, @RequestParam Long surveyId) {
+    //http://localhost:8080/api/questions/1
+    @PostMapping("/{surveyId}")
+    public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable Long surveyId) {
         try {
             Survey survey = surveyService.getSurveyById(surveyId);
+            Question question = questionService.createQuestion(questionDTO);//denna metod transformerar DTO till en entitet
             question.setSurvey(survey);
-            Question createdQuestion = questionService.createQuestion(question);
+            Question createdQuestion = questionService.createQuestion(questionDTO);
             return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Survey not found with id: " + surveyId);
         }
     }
 
-    // Hämta alla frågor för en specifik undersökning
     @GetMapping("/survey/{surveyId}")
     public ResponseEntity<List<Question>> getAllQuestionsBySurveyId(@PathVariable Long surveyId) {
         List<Question> questions = questionService.findAllQuestionsBySurvey(surveyId);
         return ResponseEntity.ok(questions);
     }
 
-    // Hämta alla frågor från alla undersökningar
     @GetMapping("/all")
     public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = questionService.findAllQuestions();
         return ResponseEntity.ok(questions);
     }
 
-
-    // Hämta en specifik fråga med dess ID
     @GetMapping("/{id}")
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) {
         return questionService.findQuestionById(id)
@@ -61,7 +59,6 @@ public class QuestionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Uppdatera en befintlig fråga
     @PutMapping("/{id}")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question) {
         Question updatedQuestion = questionService.updateQuestion(id, question);
