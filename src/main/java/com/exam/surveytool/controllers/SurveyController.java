@@ -29,6 +29,12 @@ public class SurveyController {
         return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Survey> getSurveyById(@PathVariable Long id) {
+        Survey survey = surveyService.getSurveyById(id);
+        return new ResponseEntity<>(survey, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey) {
         Survey createdSurvey = surveyService.createSurvey(survey);
