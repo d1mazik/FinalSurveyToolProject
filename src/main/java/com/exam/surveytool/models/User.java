@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -28,6 +28,9 @@ public class User {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user")
+    private Set<SurveyResponseSession> surveyResponseSessions;
 
     // Den här delen av kod är för ManyToMany relationen till Role via UserRole
     @ManyToMany(fetch = FetchType.LAZY)
@@ -48,5 +51,4 @@ public class User {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
 }
