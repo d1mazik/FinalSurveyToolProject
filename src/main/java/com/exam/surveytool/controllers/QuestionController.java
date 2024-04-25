@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -31,8 +30,7 @@ public class QuestionController {
     public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable Long surveyId) {
         try {
             Survey survey = surveyService.getSurveyById(surveyId);
-            Question question = questionService.createQuestion(questionDTO);//denna metod transformerar DTO till en entitet
-            question.setSurvey(survey);
+            questionDTO.setSurveyId(surveyId);  // Sätt surveyId i DTO:n ifall det behövs
             Question createdQuestion = questionService.createQuestion(questionDTO);
             return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
         } catch (NoSuchElementException e) {
@@ -46,7 +44,7 @@ public class QuestionController {
         return ResponseEntity.ok(questions);
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = questionService.findAllQuestions();
         return ResponseEntity.ok(questions);
@@ -69,7 +67,6 @@ public class QuestionController {
         }
     }
 
-
     // Ta bort en fråga
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
@@ -80,5 +77,4 @@ public class QuestionController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

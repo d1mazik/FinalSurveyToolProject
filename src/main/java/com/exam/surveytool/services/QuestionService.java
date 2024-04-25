@@ -4,45 +4,61 @@ import com.exam.surveytool.dtos.QuestionDTO;
 import com.exam.surveytool.enums.EQuestionType;
 import com.exam.surveytool.models.Option;
 import com.exam.surveytool.models.Question;
+import com.exam.surveytool.models.Survey;
 import com.exam.surveytool.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final SurveyService surveyService;  // Lägg till referens till SurveyService
 
     @Autowired
-    public QuestionService(QuestionRepository questionRepository) {
+    public QuestionService(QuestionRepository questionRepository, SurveyService surveyService) {
         this.questionRepository = questionRepository;
+        this.surveyService = surveyService;
     }
 
 
     @Transactional
-    public Question createQuestion (QuestionDTO questionDTO) { //modifierade with DTO att hantera olika frågetyper
+    public Question createQuestion(QuestionDTO questionDTO) {
         Question question = new Question();
         question.setType(questionDTO.getType());
-        question.setText(questionDTO.getType() == EQuestionType.TEXT ? questionDTO.getText() : null);
 
-        if (questionDTO.getType() == EQuestionType.OPTIONS && questionDTO.getOptions() != null) {
-            question.setOptions(questionDTO.getOptions().stream()
-                    .map(text -> new Option(null,text, question))//
-                    .collect(Collectors.toList()));
+        // Sätt text endast om typen är TEXT. Annars, ignorera textfältet.
+        if (questionDTO.getType().equals(EQuestionType.TEXT)) {
+            question.setText(questionDTO.getText());
         }
 
-        if (questionDTO.getType() == EQuestionType.SCALE) {
+        // För OPTIONS, skapa och lägg till options i 'question'.
+        if (questionDTO.getType().equals(EQuestionType.OPTIONS) && questionDTO.getOptions() != null) {
+            for (String optionText : questionDTO.getOptions()) {
+                Option option = new Option();
+                option.setText(optionText);
+                question.setText(questionDTO.getText());
+                question.addOption(option);
+            }
+        }
+
+        // För SCALE, sätt minScale och maxScale.
+        if (questionDTO.getType().equals(EQuestionType.SCALE)) {
             question.setMinScale(questionDTO.getMinScale());
             question.setMaxScale(questionDTO.getMaxScale());
+            question.setText(questionDTO.getText());
         }
 
+        // Hämta Survey via SurveyService och associera med frågan
+        Survey survey = surveyService.getSurveyById(questionDTO.getSurveyId());
+        question.setSurvey(survey);
+
+        // Spara frågan i databasen
         return questionRepository.save(question);
     }
 
@@ -68,7 +84,7 @@ public class QuestionService {
     }
 
     public List<Question> findAllQuestionsBySurvey(Long surveyId) {
-        return questionRepository.findBySurveyId(surveyId); // Använder repository-metoden för att hämta frågor
+        return questionRepository.findBySurveyId(surveyId);
     }
 
     public List<Question> findAllQuestions() {
