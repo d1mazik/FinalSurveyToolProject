@@ -23,7 +23,4 @@ public class Option { //varje option blir kopplat till en question
     @JoinColumn(name = "question_id")
     @JsonBackReference
     private Question question;
-
-
-
 }
