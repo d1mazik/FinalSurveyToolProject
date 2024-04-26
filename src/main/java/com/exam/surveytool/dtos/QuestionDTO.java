@@ -17,5 +17,4 @@ public class QuestionDTO {
     private Integer minScale;
     private Integer maxScale;
     private Long surveyId;
-
 }

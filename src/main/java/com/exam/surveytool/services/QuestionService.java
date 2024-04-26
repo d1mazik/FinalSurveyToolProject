@@ -26,7 +26,6 @@ public class QuestionService {
         this.surveyService = surveyService;
     }
 
-
     @Transactional
     public Question createQuestion(QuestionDTO questionDTO) {
         Question question = new Question();
