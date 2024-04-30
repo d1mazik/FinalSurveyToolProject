@@ -18,8 +18,7 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final SurveyService surveyService;  // Lägg till referens till SurveyService
-
+    private final SurveyService surveyService;
     @Autowired
     public QuestionService(QuestionRepository questionRepository, SurveyService surveyService) {
         this.questionRepository = questionRepository;

@@ -35,7 +35,6 @@ public class AnswerService {
                     .orElseThrow(() -> new NoSuchElementException("Option not found with id: " + answerDTO.getSelectedOption()));
         }
 
-
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setText(answerDTO.getText());
