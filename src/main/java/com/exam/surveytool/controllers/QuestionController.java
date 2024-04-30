@@ -2,9 +2,9 @@ package com.exam.surveytool.controllers;
 
 import com.exam.surveytool.dtos.QuestionDTO;
 import com.exam.surveytool.models.Question;
-import com.exam.surveytool.models.Survey;
 import com.exam.surveytool.services.QuestionService;
 import com.exam.surveytool.services.SurveyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +27,9 @@ public class QuestionController {
 
     //http://localhost:8080/api/questions/1
     @PostMapping("/{surveyId}")
-    public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable Long surveyId) {
+    public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionDTO questionDTO, @PathVariable Long surveyId) {
         try {
-            Survey survey = surveyService.getSurveyById(surveyId);
-            questionDTO.setSurveyId(surveyId);  // Sätt surveyId i DTO:n ifall det behövs
+            questionDTO.setSurveyId(surveyId); // Ställ in surveyId i DTO:n om det behövs
             Question createdQuestion = questionService.createQuestion(questionDTO);
             return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
         } catch (NoSuchElementException e) {

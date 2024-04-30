@@ -29,10 +29,9 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<SurveyResponseSession> surveyResponseSessions;
 
-    // Den här delen av kod är för ManyToMany relationen till Role via UserRole
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role", // Tabellnamnet för join-tabellen

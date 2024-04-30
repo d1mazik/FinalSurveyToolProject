@@ -1,11 +1,15 @@
 package com.exam.surveytool.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import java.time.LocalDateTime;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "survey_response_session")
 public class SurveyResponseSession {
@@ -15,19 +19,26 @@ public class SurveyResponseSession {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @OneToMany(mappedBy = "surveyResponseSession")
-    private Set<Answer> answers;
+    @OneToMany(mappedBy = "surveyResponseSession", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers = new ArrayList<>();
 
-    @Column(name = "started_at", nullable = false)
-    private LocalDateTime startedAt;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "finished_at", nullable = false)
+
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "finished_at")
     private LocalDateTime finishedAt;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 }

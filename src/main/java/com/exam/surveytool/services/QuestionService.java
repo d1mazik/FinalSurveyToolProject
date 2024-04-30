@@ -5,6 +5,7 @@ import com.exam.surveytool.enums.EQuestionType;
 import com.exam.surveytool.models.Option;
 import com.exam.surveytool.models.Question;
 import com.exam.surveytool.models.Survey;
+import com.exam.surveytool.repositories.OptionRepository;
 import com.exam.surveytool.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,48 +19,40 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final SurveyService surveyService;  // Lägg till referens till SurveyService
-
+    private final SurveyService surveyService;
+    private final OptionRepository optionRepository;
     @Autowired
-    public QuestionService(QuestionRepository questionRepository, SurveyService surveyService) {
+    public QuestionService(QuestionRepository questionRepository, SurveyService surveyService, OptionRepository optionRepository) {
         this.questionRepository = questionRepository;
         this.surveyService = surveyService;
+        this.optionRepository = optionRepository;
     }
 
     @Transactional
     public Question createQuestion(QuestionDTO questionDTO) {
         Question question = new Question();
         question.setType(questionDTO.getType());
+        question.setText(questionDTO.getText()); // Detta antar att text alltid sätts, oavsett frågetyp
 
-        // Sätt text endast om typen är TEXT. Annars, ignorera textfältet.
-        if (questionDTO.getType().equals(EQuestionType.TEXT)) {
-            question.setText(questionDTO.getText());
-        }
-
-        // För OPTIONS, skapa och lägg till options i 'question'.
-        if (questionDTO.getType().equals(EQuestionType.OPTIONS) && questionDTO.getOptions() != null) {
-            for (String optionText : questionDTO.getOptions()) {
-                Option option = new Option();
-                option.setText(optionText);
-                question.setText(questionDTO.getText());
-                question.addOption(option);
-            }
-        }
-
-        // För SCALE, sätt minScale och maxScale.
-        if (questionDTO.getType().equals(EQuestionType.SCALE)) {
-            question.setMinScale(questionDTO.getMinScale());
-            question.setMaxScale(questionDTO.getMaxScale());
-            question.setText(questionDTO.getText());
-        }
-
-        // Hämta Survey via SurveyService och associera med frågan
         Survey survey = surveyService.getSurveyById(questionDTO.getSurveyId());
         question.setSurvey(survey);
 
-        // Spara frågan i databasen
+        if (questionDTO.getType() == EQuestionType.OPTIONS) {
+            questionDTO.getOptions().forEach(optionText -> {
+                Option option = new Option();
+                option.setText(optionText);
+                option.setQuestion(question); // Sätt frågan för varje option
+                question.getOptions().add(option); // Lägg till option i frågans option-lista
+            });
+        } else if (questionDTO.getType() == EQuestionType.SCALE) {
+            question.setMinScale(questionDTO.getMinScale());
+            question.setMaxScale(questionDTO.getMaxScale());
+        }
+
+        // Eftersom CascadeType är ALL, kommer options att sparas när vi sparar frågan
         return questionRepository.save(question);
     }
+
 
 
     @Transactional
