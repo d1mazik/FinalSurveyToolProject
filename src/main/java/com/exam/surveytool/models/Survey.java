@@ -23,10 +23,10 @@ public class Survey {
     @Column(nullable = true)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Lägg till denna rad
+  /*  @ManyToOne(fetch = FetchType.LAZY) // Lägg till denna rad
     @JoinColumn(name = "user_id") // Lägg till denna rad
     private User createdBy; // Lägg till denna rad för att skapa en relation till användaren som skapade enkäten
-
+*/
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Question> questions;

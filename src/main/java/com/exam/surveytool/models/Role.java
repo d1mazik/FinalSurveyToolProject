@@ -1,4 +1,4 @@
-package com.exam.surveytool.models;
+/*package com.exam.surveytool.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,3 +21,4 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 }
+*/
