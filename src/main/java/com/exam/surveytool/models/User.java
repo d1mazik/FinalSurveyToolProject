@@ -1,55 +1,97 @@
-/*package com.exam.surveytool.models;
+package com.exam.surveytool.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "users") // Se till att tabellnamnet matchar det exakta namnet i din databas
-public class User {
-
+@Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
+public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
-    @Column(nullable = false)
+    private String firstName;
+    private String lastName;
+    @Column(unique = true)
+    private String email;
     private String password;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
+    @LastModifiedDate
+    @Column(insertable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private Set<SurveyResponseSession> surveyResponseSessions;
 
-    // Den här delen av kod är för ManyToMany relationen till Role via UserRole
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_role", // Tabellnamnet för join-tabellen
-            joinColumns = @JoinColumn(name = "user_id"), // Namnet på kolumnen i join-tabellen som refererar till denna User entitet
-            inverseJoinColumns = @JoinColumn(name = "role_id") // Namnet på den motsatta kolumnen som refererar till Role entiteten
-    )
-    private Set<Role> roles;
+    //private <List> roles;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+
+    @Override
+    public String getName() {
+        return email;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    private String getFullName() {
+        return firstName + " " + lastName;
     }
 }
-*/
