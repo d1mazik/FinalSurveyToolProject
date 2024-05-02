@@ -25,16 +25,14 @@ public class QuestionController {
         this.surveyService = surveyService;
     }
 
-    //http://localhost:8080/api/questions/1
-    @PostMapping("/{surveyId}")
-    public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO, @PathVariable Long surveyId) {
+    //http://localhost:8080/api/questions/
+    @PostMapping("/")
+    public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO) {
         try {
-            Survey survey = surveyService.getSurveyById(surveyId);
-            questionDTO.setSurveyId(surveyId);  // Sätt surveyId i DTO:n ifall det behövs
-            Question createdQuestion = questionService.createQuestion(questionDTO);
-            return new ResponseEntity<>(createdQuestion, HttpStatus.CREATED);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Survey not found with id: " + surveyId);
+            Question question = questionService.createQuestion(questionDTO);
+            return new ResponseEntity<>(question, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -67,7 +65,6 @@ public class QuestionController {
         }
     }
 
-    // Ta bort en fråga
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long id) {
         try {

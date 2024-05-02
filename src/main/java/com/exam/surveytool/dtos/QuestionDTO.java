@@ -11,10 +11,11 @@ import java.util.List;
 @Data
 public class QuestionDTO {
     private Long id;
+    private Long surveyId;
     private EQuestionType type;
     private String text;
     private List<String> options;
     private Integer minScale;
     private Integer maxScale;
-    private Long surveyId;
+
 }
