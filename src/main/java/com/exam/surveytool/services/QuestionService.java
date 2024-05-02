@@ -38,7 +38,7 @@ public class QuestionService {
         question.setSurvey(survey);
         question.setType(questionDTO.getType());
 
-        // Sätt text endast om typen är TEXT. Annars, ignorera textfältet.
+        // För TEXT, sätt texten på frågan.
         if (questionDTO.getType().equals(EQuestionType.TEXT)) {
             question.setText(questionDTO.getText());
         }
@@ -60,9 +60,6 @@ public class QuestionService {
             question.setText(questionDTO.getText());
         }
 
-        // Hämta Survey via SurveyService och associera med frågan
-        survey = surveyService.getSurveyById(questionDTO.getSurveyId());
-        question.setSurvey(survey);
 
         // Spara frågan i databasen
         return questionRepository.save(question);

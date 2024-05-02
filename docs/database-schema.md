@@ -15,10 +15,10 @@ Representerar en enkät och innehåller en uppsättning `Question`. Varje `Surve
 En fråga som finns i en `Survey`. Kan vara av olika typer, som textfrågor, flervalsfrågor eller skalafrågor.
 
 ### Option
-(Om tillämpligt) Ett svarsalternativ för en `Question` av typen flervalsfråga.
+Ett svarsalternativ för en `Question` av typen flervalsfråga.
 
 ### SurveyResponseSession
-En session där en `User` besvarar en `Survey`. Inkluderar datum och tid för start och slutförande.
+En session där en `User` besvarar en `Survey` och lagrar `Answer`. Inkluderar datum och tid för start och slutförande.
 
 ### Answer
 Ett svar som en `User` ger på en `Question` i en `Survey`, kopplat till en specifik `Question` och en `SurveyResponseSession`.

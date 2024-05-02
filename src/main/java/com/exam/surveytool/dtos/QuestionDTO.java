@@ -17,5 +17,4 @@ public class QuestionDTO {
     private List<String> options;
     private Integer minScale;
     private Integer maxScale;
-
 }

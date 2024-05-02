@@ -26,7 +26,7 @@ public class QuestionController {
     }
 
     //http://localhost:8080/api/questions/
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO) {
         try {
             Question question = questionService.createQuestion(questionDTO);
