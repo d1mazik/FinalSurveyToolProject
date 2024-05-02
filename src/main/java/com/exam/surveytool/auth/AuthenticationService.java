@@ -27,7 +27,7 @@ public class AuthenticationService {
     private final EmailService emailService;
     private String activationUrl = "http://localhost:8080/api/auth/activate-account";
 
-    public void register(RegisterRequest request) throws MessagingException {
+    public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 // todo: handle exception better
                 .orElseThrow(() -> new IllegalStateException("User Role not found"));
