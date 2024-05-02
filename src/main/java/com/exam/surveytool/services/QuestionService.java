@@ -6,6 +6,7 @@ import com.exam.surveytool.models.Option;
 import com.exam.surveytool.models.Question;
 import com.exam.surveytool.models.Survey;
 import com.exam.surveytool.repositories.QuestionRepository;
+import com.exam.surveytool.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +19,23 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final SurveyRepository surveyRepository;
     private final SurveyService surveyService;  // Lägg till referens till SurveyService
 
     @Autowired
-    public QuestionService(QuestionRepository questionRepository, SurveyService surveyService) {
+    public QuestionService(QuestionRepository questionRepository, SurveyRepository surveyRepository, SurveyService surveyService) {
         this.questionRepository = questionRepository;
+        this.surveyRepository = surveyRepository;
         this.surveyService = surveyService;
     }
 
     @Transactional
     public Question createQuestion(QuestionDTO questionDTO) {
+        Survey survey = surveyRepository.findById(questionDTO.getSurveyId())
+                .orElseThrow(() -> new NoSuchElementException("Survey not found with id: " + questionDTO.getSurveyId()));
+
         Question question = new Question();
+        question.setSurvey(survey);
         question.setType(questionDTO.getType());
 
         // Sätt text endast om typen är TEXT. Annars, ignorera textfältet.
@@ -54,13 +61,12 @@ public class QuestionService {
         }
 
         // Hämta Survey via SurveyService och associera med frågan
-        Survey survey = surveyService.getSurveyById(questionDTO.getSurveyId());
+        survey = surveyService.getSurveyById(questionDTO.getSurveyId());
         question.setSurvey(survey);
 
         // Spara frågan i databasen
         return questionRepository.save(question);
     }
-
 
     @Transactional
     public void deleteQuestion(Long id) {

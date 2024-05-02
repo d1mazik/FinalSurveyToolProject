@@ -9,6 +9,7 @@ import com.exam.surveytool.repositories.OptionRepository;
 import com.exam.surveytool.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
@@ -35,15 +36,41 @@ public class AnswerService {
                     .orElseThrow(() -> new NoSuchElementException("Option not found with id: " + answerDTO.getSelectedOption()));
         }
 
-
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setText(answerDTO.getText());
         answer.setScale(answerDTO.getScale());
-        answer.setSelectedOption(option);  // Tilldela option här
+        answer.setSelectedOption(option);
 
         return answerRepository.save(answer);
     }
-    // Andra metoder ...
+
+    @Transactional
+    public void deleteAnswer(Long id) {
+        if (!answerRepository.existsById(id)) {
+            throw new NoSuchElementException("Answer with id: " + id + " was not found");
+        }
+        answerRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Answer updateAnswer(Long id, AnswerDTO answerDTO) {
+        Answer answer = answerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Answer with id " + id + " not found"));
+
+        if (answerDTO.getText() != null) {  //uppdateras den relevanta typen av frågor
+            answer.setText(answerDTO.getText());
+        }
+        if (answerDTO.getSelectedOption() != null) {
+            Option option = optionRepository.findById(answerDTO.getSelectedOption())
+                    .orElseThrow(() -> new NoSuchElementException("Option not found with id: " + answerDTO.getSelectedOption()));
+            answer.setSelectedOption(option);
+        }
+        if (answerDTO.getScale() != null) {
+            answer.setScale(answerDTO.getScale());
+        }
+
+        return answerRepository.save(answer);
+    }
 }
 
