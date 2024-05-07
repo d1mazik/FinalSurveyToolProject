@@ -8,7 +8,6 @@ import com.exam.surveytool.repositories.SurveyRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
 @Service
 public class SurveyService {
     private final SurveyRepository surveyRepository;
