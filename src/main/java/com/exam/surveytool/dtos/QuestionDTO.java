@@ -5,9 +5,6 @@ import lombok.Data;
 
 import java.util.List;
 
-//DTO som inputparameter i mina controllermetoder för att bättre hantera
-//olika typer av input beroende på frågetyp
-//denna DTO används i QuestionController
 @Data
 public class QuestionDTO {
     private Long id;

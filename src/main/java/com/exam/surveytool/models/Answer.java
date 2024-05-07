@@ -20,8 +20,13 @@ public class Answer {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_id")  // Lägg till denna rad för att referera till 'Option'
-    private Option selectedOption;  // Lägg till denna rad
+    @JoinColumn(name = "option_id")
+    private Option selectedOption;
+
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    private SurveyResponseSession session;
+
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

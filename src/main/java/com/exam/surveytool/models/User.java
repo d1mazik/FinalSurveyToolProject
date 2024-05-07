@@ -33,6 +33,8 @@ public class User implements UserDetails, Principal {
     @Column(unique = true)
     private String email;
     private String password;
+    private boolean accountLocked;
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
@@ -43,9 +45,6 @@ public class User implements UserDetails, Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime updatedAt;
-
-
-    //private <List> roles;
 
 
     @Override
@@ -78,20 +77,20 @@ public class User implements UserDetails, Principal {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !accountLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 
-    private String getFullName() {
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 }

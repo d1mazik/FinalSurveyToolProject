@@ -20,16 +20,19 @@ public class Survey {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String description;
 
-  /*  @ManyToOne(fetch = FetchType.LAZY) // Lägg till denna rad
-    @JoinColumn(name = "user_id") // Lägg till denna rad
-    private User createdBy; // Lägg till denna rad för att skapa en relation till användaren som skapade enkäten
-*/
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Question> questions;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "survey")
+    private List<SurveyResponseSession> sessions;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
