@@ -11,17 +11,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Token {
+public class Token { //will be created automatically by our system itself
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String token;
+    private String token; //will be a method that will generate a token
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
     private LocalDateTime validatedAt;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "user_id")
+    @ManyToOne //one way reference to user (many tokens to one user)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

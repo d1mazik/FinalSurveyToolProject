@@ -45,7 +45,7 @@ public class User implements UserDetails, Principal {
     private LocalDateTime updatedAt;
 
 
-    //private <List> roles;
+    //private List<Role> roles;
 
 
     @Override
@@ -58,7 +58,7 @@ public class User implements UserDetails, Principal {
         return this.roles
                 .stream()
                 .map(r -> new SimpleGrantedAuthority(r.getName()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); //will return a list of authorities
     }
 
     @Override
@@ -91,7 +91,7 @@ public class User implements UserDetails, Principal {
         return false;
     }
 
-    private String getFullName() {
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 }
