@@ -20,13 +20,11 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final SurveyRepository surveyRepository;
-    private final SurveyService surveyService;  // Lägg till referens till SurveyService
 
     @Autowired
     public QuestionService(QuestionRepository questionRepository, SurveyRepository surveyRepository, SurveyService surveyService) {
         this.questionRepository = questionRepository;
         this.surveyRepository = surveyRepository;
-        this.surveyService = surveyService;
     }
 
     @Transactional
