@@ -3,6 +3,7 @@ package com.exam.surveytool.controllers;
 import com.exam.surveytool.dtos.AnswerDTO;
 import com.exam.surveytool.models.Answer;
 import com.exam.surveytool.services.AnswerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/answers")
 public class AnswerController {
@@ -22,7 +24,7 @@ public class AnswerController {
     }
 
     @PostMapping
-    public ResponseEntity<Answer> createAnswer(@RequestBody AnswerDTO answerDTO) {
+    public ResponseEntity<?> createAnswer(@Valid @RequestBody AnswerDTO answerDTO) {
         try {
             Answer answer = answerService.createAnswer(answerDTO);
             return new ResponseEntity<>(answer, HttpStatus.CREATED);
