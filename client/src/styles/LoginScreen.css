@@ -1,78 +1,103 @@
 .login-container {
-    width: 100%;
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff;
-    border-radius: 8px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #6200EA; /* Justera beroende på din designpreferens */
+}
+
+.login-form {
+    height: 39vh;
+    width: 20%; /* Styr bredden på inloggningsformuläret */
+    padding: 2rem;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Ge mer utrymme mellan inmatningsfälten */
+    display: flex;
+    align-items: center;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 16px;
-    color: #333333;
+.form-group img {
+    margin-right: 10px; /* Lägg till lite marginal mellan ikonen och inmatningsfältet */
 }
 
-.form-group input {
+.input-container {
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 10px 15px;
-    box-sizing: border-box;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    transition: border-color 0.3s;
 }
 
-.form-group input:focus {
-    border-color: #007BFF;
-    outline: none;
+input[type="email"],
+input[type="password"],
+input[type="firstname"],
+input[type="lastName"] {
+    width: 100%;
+    padding: 10px 10px 10px 0; /* Ta bort padding till höger för att texten inte ska flyta ut */
+    border: none; /* Ta bort alla kantlinjer */
+    border-bottom: 1px solid #ccc; /* Lägg till en enkel linje i botten */
+    background: transparent; /* Gör bakgrunden transparent */
+    outline: none; /* Ta bort markeringen när fältet är fokuserat */
 }
+
+/* Fokus-stil för input */
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="firstName"]:focus,
+input[type="lastName"]:focus {
+    border-bottom: 2px solid #6200EA; /* Ändra till en tjockare eller färgad linje vid fokus */
+}
+
 
 button {
-    width: calc(50% - 4px);
-    padding: 10px 0;
-    margin: 2px;
-    background-color: #007BFF;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px; /* Lägg till marginal ovanför knappen */
+    background-color: #6200EA;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 16px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #5a00d2;
 }
 
-button.register {
-    background-color: #28a745;
+.right-section {
+    height: 46.1vh;
+    width: 25%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-button.register:hover {
-    background-color: #196321;
-}
-
-.form-section {
-    display: none;
-    margin-top: 20px;
-}
-
-.form-section.open {
-    display: block;
-}
 
 .error-message {
-    color: #ff0000; /* Röd färg för felmeddelanden */
-    margin: 10px 0;
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px; /* Lägg till marginal ovanför felmeddelandet */
+}
+
+.iconLogin {
+    width: 20px; /* Justera storleken efter behov */
+    height: 20px; /* Justera höjden efter behov */
+    filter: invert(35%) sepia(95%) saturate(2412%) hue-rotate(217deg) brightness(99%) contrast(92%);
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 20px; /* Justera efter behov */
+    font-size: 0.9rem;
+}
+
+.signup-link span {
+    color: #6200EA; /* Samma färg som knappen för att hålla designen enhetlig */
+    cursor: pointer; /* Visar att det är klickbart */
 }

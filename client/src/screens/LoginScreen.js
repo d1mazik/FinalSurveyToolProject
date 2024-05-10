@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import emailIcon from "../assets/email-logo.png";
+import passwordIcon from "../assets/password-logo.png";
+import backgroundImage from "../assets/survey-backround.webp";
 import '../styles/LoginScreen.css';
 
 function LoginScreen() {
@@ -34,17 +37,9 @@ function LoginScreen() {
                 password: registerInfo.password
             });
             console.log('Registration Success:', response.data);
-            // Rensa formuläret eller omdirigera användaren
         } catch (error) {
-            if (error.response) {
-                // Servern svarade med en statuskod som ligger utanför 2xx-serien
-                console.error('Registration Error:', error.response.data);
-                setErrorMessage(error.response.data.message || 'Registrering misslyckades. Kontrollera uppgifterna och försök igen.');
-            } else {
-                // Något hände i inställningen av förfrågan som utlöste ett fel
-                console.error('Registration Error:', error.message);
-                setErrorMessage('Kan inte nå servern. Kontrollera din nätverksanslutning.');
-            }
+            console.error('Registration Error:', error);
+            setErrorMessage('Registrering misslyckades. Kontrollera uppgifterna och försök igen.');
         }
     };
 
@@ -54,77 +49,88 @@ function LoginScreen() {
 
     return (
         <div className="login-container">
-            <h2>Logga In</h2>
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
-                    <label>E-post:</label>
-                    <input
-                        type="email"
-                        value={loginInfo.username}
-                        onChange={(e) => setLoginInfo({ ...loginInfo, username: e.target.value })}
-                        required
-                    />
+            {!showRegister ? (
+                <div className="login-form">
+                    <h2>Login</h2>
+                    <form onSubmit={handleLogin}>
+                        <div className="form-group">
+                            <img src={emailIcon} alt="Email" className="iconLogin" />
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                value={loginInfo.username}
+                                onChange={(e) => setLoginInfo({ ...loginInfo, username: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <img src={passwordIcon} alt="Password" className="iconLogin" />
+                            <input
+                                type="password"
+                                placeholder="Enter your password"
+                                value={loginInfo.password}
+                                onChange={(e) => setLoginInfo({ ...loginInfo, password: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <button type="submit">Login</button>
+                        {errorMessage && <div className="error-message">{errorMessage}</div>}
+                        <div className="signup-link">
+                            Don't have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Signup now</span>
+                        </div>
+                    </form>
                 </div>
-                <div className="form-group">
-                    <label>Lösenord:</label>
-                    <input
-                        type="password"
-                        value={loginInfo.password}
-                        onChange={(e) => setLoginInfo({ ...loginInfo, password: e.target.value })}
-                        required
-                    />
+            ) : (
+                <div className="login-form">
+                    <h2>Signup</h2>
+                    <form onSubmit={handleRegister}>
+                        <div className="form-group">
+                            <input
+                                type="firstName"
+                                placeholder="Enter your first name"
+                                value={registerInfo.firstName}
+                                onChange={(e) => setRegisterInfo({ ...registerInfo, firstName: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="lastName"
+                                placeholder="Enter your last name"
+                                value={registerInfo.lastName}
+                                onChange={(e) => setRegisterInfo({ ...registerInfo, lastName: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                value={registerInfo.email}
+                                onChange={(e) => setRegisterInfo({ ...registerInfo, email: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                placeholder="Enter your password"
+                                value={registerInfo.password}
+                                onChange={(e) => setRegisterInfo({ ...registerInfo, password: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <button type="submit">Signup</button>
+                        {errorMessage && <div className="error-message">{errorMessage}</div>}
+                        <div className="signup-link">
+                            Already have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Login</span>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit">Logga in</button>
-                <button type="button" onClick={toggleRegister} className="register">Registrera</button>
-            </form>
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-            <div className={`form-section ${showRegister ? 'open' : ''}`}>
-                {showRegister && (
-                    <div>
-                        <h2>Registrera</h2>
-                        <form onSubmit={handleRegister}>
-                            <div className="form-group">
-                                <label>Förnamn:</label>
-                                <input
-                                    type="text"
-                                    value={registerInfo.firstName}
-                                    onChange={(e) => setRegisterInfo({ ...registerInfo, firstName: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Efternamn:</label>
-                                <input
-                                    type="text"
-                                    value={registerInfo.lastName}
-                                    onChange={(e) => setRegisterInfo({ ...registerInfo, lastName: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>E-post:</label>
-                                <input
-                                    type="email"
-                                    value={registerInfo.email}
-                                    onChange={(e) => setRegisterInfo({ ...registerInfo, email: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Lösenord:</label>
-                                <input
-                                    type="password"
-                                    value={registerInfo.password}
-                                    onChange={(e) => setRegisterInfo({ ...registerInfo, password: e.target.value })}
-                                    required
-                                />
-                            </div>
-                            <button type="submit">Registrera</button>
-                        </form>
-                    </div>
-                )}
-            </div>
+
+            )}
+            { !showRegister && <div className="right-section" style={{ backgroundImage: `url(${backgroundImage})` }}></div>}
         </div>
     );
 }
