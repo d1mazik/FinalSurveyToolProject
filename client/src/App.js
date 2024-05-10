@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginScreen from './screens/LoginScreen';
 import MenuScreen from './screens/MenuScreen';
 import AllQuestionsScreen from './screens/AllQuestionsScreen'; // Importera AllQuestionsScreen-komponenten
 
@@ -8,8 +9,9 @@ function App() {
         <Router>
             <div className="App">
                 <Routes>
-                    <Route path="/" element={<MenuScreen />} />
-                    <Route path="/all-questions" element={<AllQuestionsScreen />} /> {/* Använd AllQuestionsScreen-komponenten */}
+                    <Route path="/login" element={<LoginScreen />} />
+                    {/*<Route path="/" element={<MenuScreen />} />*/}
+                    {/*<Route path="/all-questions" element={<AllQuestionsScreen />} /> */}
                 </Routes>
             </div>
         </Router>
