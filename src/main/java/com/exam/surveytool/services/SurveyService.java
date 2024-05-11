@@ -1,6 +1,8 @@
 package com.exam.surveytool.services;
 
 import com.exam.surveytool.models.Survey;
+import com.exam.surveytool.models.User;
+import com.exam.surveytool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +14,12 @@ import java.util.NoSuchElementException;
 public class SurveyService {
     private final SurveyRepository surveyRepository;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public SurveyService(SurveyRepository surveyRepository) {
+    public SurveyService(SurveyRepository surveyRepository, SurveyResponseSessionService surveyResponseSessionService, UserRepository userRepository) {
         this.surveyRepository = surveyRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional

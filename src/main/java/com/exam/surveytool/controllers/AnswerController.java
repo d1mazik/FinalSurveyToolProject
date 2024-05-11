@@ -22,14 +22,15 @@ public class AnswerController {
     }
 
     @PostMapping
-    public ResponseEntity<Answer> createAnswer(@RequestBody AnswerDTO answerDTO) {
+    public ResponseEntity<AnswerDTO> createAnswer(@RequestBody AnswerDTO answerDTO) {
         try {
-            Answer answer = answerService.createAnswer(answerDTO);
-            return new ResponseEntity<>(answer, HttpStatus.CREATED);
+            AnswerDTO createdAnswer = answerService.createAnswer(answerDTO);
+            return new ResponseEntity<>(createdAnswer, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Answer> updateAnswer(@PathVariable Long id, @RequestBody AnswerDTO answerDTO) {

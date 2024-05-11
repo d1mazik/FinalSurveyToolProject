@@ -13,7 +13,7 @@ public class Answer {
     private Long id;
 
     private String text;  // Används för TEXT-baserade svar
-    private Integer scale;  // Används för SCALE-baserade svar
+    private Integer selectedScale;  // Används för SCALE-baserade svar
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
