@@ -1,14 +1,45 @@
-/* MenuScreen.css */
 .menu-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: center; /* Centrerar element horisontellt men inte vertikalt */
+    justify-content: flex-start; /* Startar innehåll från toppen av containern */
     height: 100vh;
+    background-color: #6200EA; /* Din specifika bakgrundsfärg */
+    padding-top: 20px; /* Om du vill ha 20px från toppen */
 }
+
+
+
+.survey-logo {
+    width: 300px; /* Bredden på logotypen */
+    margin-top: 20px; /* Justera eller ta bort beroende på önskad placering */
+    margin-bottom: 20px; /* Behåll lite marginal under ikonen */
+}
+
+
+
+.survey-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .menu-button {
     margin: 10px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    background-color: white; /* Vit bakgrund */
+    color: #6200EA; /* Mörk textfärg för kontrast mot den vita bakgrunden */
+    border: 2px solid #6200EA; /* Lägg till en mörk lila gräns */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
 }
+
+.menu-button:hover {
+    background-color: #4b0082;
+    color: white; /* Ändra textfärgen vid hovring till vit */
+    transform: scale(1.05);
+}
+

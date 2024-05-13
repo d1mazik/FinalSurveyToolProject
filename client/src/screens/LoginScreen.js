@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import emailIcon from "../assets/email-logo.png";
 import passwordIcon from "../assets/password-logo.png";
 import backgroundImage from "../assets/survey-backround.webp";
-import MenuScreen from './MenuScreen'; // Om detta behövs endast för direktnavigation utan route, se nedan.
 import '../styles/LoginScreen.css';
 
 function LoginScreen() {
