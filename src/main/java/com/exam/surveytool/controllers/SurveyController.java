@@ -10,6 +10,7 @@ import com.exam.surveytool.services.SurveyService;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/surveys")
 public class SurveyController {
