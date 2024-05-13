@@ -1,17 +1,17 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginScreen from './screens/LoginScreen';
-import MenuScreen from './screens/MenuScreen';
-import AllQuestionsScreen from './screens/AllQuestionsScreen'; // Importera AllQuestionsScreen-komponenten
+import MenuScreen from "./screens/MenuScreen";
 
 function App() {
     return (
         <Router>
             <div className="App">
                 <Routes>
+                    {/* Redirect från root URL till /login */}
+                    <Route path="/" element={<Navigate replace to="/login" />} />
                     <Route path="/login" element={<LoginScreen />} />
-                    {/*<Route path="/" element={<MenuScreen />} />*/}
-                    {/*<Route path="/all-questions" element={<AllQuestionsScreen />} /> */}
+                    <Route path="/menu" element={<MenuScreen />} />
                 </Routes>
             </div>
         </Router>

@@ -101,3 +101,27 @@ button:hover {
     color: #6200EA; /* Samma färg som knappen för att hålla designen enhetlig */
     cursor: pointer; /* Visar att det är klickbart */
 }
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    width: 30%; /* Justera bredden efter behov */
+    max-width: 400px; /* Sätt en maxbredd för större skärmar */
+    margin: auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    outline: none; /* Ta bort blå kant som kan dyka upp vid fokus */
+}

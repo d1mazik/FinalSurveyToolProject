@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 import emailIcon from "../assets/email-logo.png";
 import passwordIcon from "../assets/password-logo.png";
 import backgroundImage from "../assets/survey-backround.webp";
+import MenuScreen from './MenuScreen'; // Om detta behövs endast för direktnavigation utan route, se nedan.
 import '../styles/LoginScreen.css';
 
 function LoginScreen() {
@@ -10,17 +12,19 @@ function LoginScreen() {
     const [registerInfo, setRegisterInfo] = useState({ firstName: '', lastName: '', email: '', password: '' });
     const [showRegister, setShowRegister] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const navigate = useNavigate(); // Använder useNavigate för att hantera navigation
 
     const handleLogin = async (event) => {
         event.preventDefault();
         setErrorMessage('');
         try {
             const response = await fetch('http://localhost:8080/api/auth/authenticate', {
-                method: 'POST', // Specifying the method
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // Setting the content type to JSON
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ // Convert the JavaScript object to a JSON string
+                body: JSON.stringify({
                     email: loginInfo.username,
                     password: loginInfo.password
                 })
@@ -30,14 +34,14 @@ function LoginScreen() {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json(); // Parsing the JSON response body
+            const data = await response.json();
             console.log('Login Success:', data);
+            navigate('/menu'); // Navigerar till MenuScreen via URL '/menu'
         } catch (error) {
             console.error('Login Error:', error);
-            setErrorMessage('Felaktig e-postadress eller lösenord.'); // Generic error message, consider enhancing error handling by using error response from server
+            setErrorMessage('Felaktig e-postadress eller lösenord.');
         }
     };
-
 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -60,23 +64,16 @@ function LoginScreen() {
                 throw new Error(`HTTP status ${response.status}`);
             }
 
-            if (response.status === 202) { // Kontrollerar specifikt för 'Accepted' statuskod
-                console.log('Registration Success: User registered');
-            } else {
-                const data = await response.json(); // Försöker bara tolka som JSON om det förväntas vara innehåll
-                console.log('Registration Success:', data);
-            }
+            setModalIsOpen(true); // Visa modal vid framgång
         } catch (error) {
             console.error('Registration Error:', error);
             setErrorMessage('Registrering misslyckades. Kontrollera uppgifterna och försök igen.');
         }
     };
 
-
     const toggleRegister = () => {
         setShowRegister(!showRegister);
     };
-
 
     return (
         <div className="login-container">
@@ -158,10 +155,21 @@ function LoginScreen() {
                         </div>
                     </form>
                 </div>
-
-
             )}
-            { !showRegister && <div className="right-section" style={{ backgroundImage: `url(${backgroundImage})` }}></div>}
+            {!showRegister && <div className="right-section" style={{ backgroundImage: `url(${backgroundImage})` }}></div>}
+
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+                contentLabel="Registration Success Modal"
+                ariaHideApp={false}
+                className="modal-content"
+                overlayClassName="modal-overlay"
+            >
+                <h2>Registrering Lyckades!</h2>
+                <p>Glöm inte att aktivera ditt konto via den länk vi skickat till din e-postadress.</p>
+                <button onClick={() => { setModalIsOpen(false); setShowRegister(false); }}>OK</button>
+            </Modal>
         </div>
     );
 }
