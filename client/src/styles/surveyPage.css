@@ -1,0 +1,58 @@
+/* surveyPage.css */
+
+.survey-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    background-color: #6200EA;
+    padding-top: 20px;
+}
+
+.survey-title {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.question-container {
+    margin-bottom: 20px;
+}
+
+.question-text {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style: none; /* Ta bort punkterna framför svaren */
+}
+
+.option-item {
+    margin-bottom: 10px;
+}
+
+.option-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    color: #6200EA;
+    border: 2px solid #6200EA;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    width: 300px; /* Ange en fast bredd för att göra alla svarsalternativ lika stora */
+    text-align: center; /* Centrera texten horisontellt */
+}
+
+.option-button:hover {
+    background-color: #4b0082;
+    color: white;
+    transform: scale(1.05);
+}

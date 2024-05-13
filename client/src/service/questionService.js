@@ -1,3 +1,29 @@
+// questionService.js
+
+export const getSurveyTitle = async (surveyId) => {
+    try {
+        const response = await fetch(`/api/surveys/${surveyId}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.title; // Returnerar titeln på undersökningen från API-responsen
+    } catch (error) {
+        console.error('Error fetching survey title:', error);
+        throw error;
+    }
+};
+
+export const getQuestionsForSurvey = async (surveyId) => {
+    try {
+        const response = await fetch(`/api/questions/survey/${surveyId}`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching questions for survey:', error);
+        throw error;
+    }
+};
 
 export const getQuestions = async () => {
     try {
@@ -9,7 +35,6 @@ export const getQuestions = async () => {
         throw error;
     }
 };
-
 
 export const createQuestion = async (questionData) => {
     try {
@@ -56,4 +81,5 @@ export const deleteQuestion = async (id) => {
         console.error('Error deleting question:', error);
         throw error;
     }
+
 };

@@ -21,12 +21,16 @@ function MenuScreen() {
         }
     };
 
+    const handleSurveyClick = (surveyId) => {
+        navigate(`/survey/${surveyId}`);
+    };
+
     return (
         <div className="menu-container">
             <img src={surveyLogo} alt="Survey Logo" className="survey-logo" />
             <div className="survey-list">
                 {surveys.map(survey => (
-                    <button key={survey.id} className="menu-button" onClick={() => navigate(`/survey/${survey.id}`)}>
+                    <button key={survey.id} className="menu-button" onClick={() => handleSurveyClick(survey.id)}>
                         {survey.title}
                     </button>
                 ))}
