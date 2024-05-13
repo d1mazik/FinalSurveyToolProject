@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,8 +32,9 @@ public class Survey {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "survey")
-    private List<SurveyResponseSession> sessions;
+    //en survey kan ha flera sessions
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SurveyResponseSession> sessions = new ArrayList<>();
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

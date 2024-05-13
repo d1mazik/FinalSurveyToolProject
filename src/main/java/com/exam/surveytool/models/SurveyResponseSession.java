@@ -37,6 +37,10 @@ public class SurveyResponseSession {
     @Column(name = "ended_at")
     private LocalDateTime endedAt; // Tiden då sessionen avslutades.
 
+    @Column(name = "isActive")
+    @Getter @Setter
+    private boolean isActive; //endast tillgänglig för metoder inom samma klass, direkt åtkomst utifrån inte är möjlig, och det behövs getter- och setter-metoder för att manipulera värdet.
+
     @PrePersist
     protected void onStart() {
         this.startedAt = LocalDateTime.now(); // Initiera starttiden när sessionen skapas.

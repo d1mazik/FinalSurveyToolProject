@@ -31,9 +31,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(
                                 "/api/auth/**",
+                                "/api/session/**",
                                 "/api/surveys/**",
                                 "/api/questions/**",
                                 "/api/answers/**"
+
                         ).permitAll()
                                 .anyRequest()
                                     .authenticated()
