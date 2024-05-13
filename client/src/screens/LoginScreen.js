@@ -15,37 +15,68 @@ function LoginScreen() {
         event.preventDefault();
         setErrorMessage('');
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/authenticate', {
-                email: loginInfo.username,
-                password: loginInfo.password
+            const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+                method: 'POST', // Specifying the method
+                headers: {
+                    'Content-Type': 'application/json' // Setting the content type to JSON
+                },
+                body: JSON.stringify({ // Convert the JavaScript object to a JSON string
+                    email: loginInfo.username,
+                    password: loginInfo.password
+                })
             });
-            console.log('Login Success:', response.data);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json(); // Parsing the JSON response body
+            console.log('Login Success:', data);
         } catch (error) {
             console.error('Login Error:', error);
-            setErrorMessage('Felaktig e-postadress eller lösenord.');
+            setErrorMessage('Felaktig e-postadress eller lösenord.'); // Generic error message, consider enhancing error handling by using error response from server
         }
     };
+
 
     const handleRegister = async (event) => {
         event.preventDefault();
         setErrorMessage('');
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', {
-                firstName: registerInfo.firstName,
-                lastName: registerInfo.lastName,
-                email: registerInfo.email,
-                password: registerInfo.password
+            const response = await fetch('http://localhost:8080/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    firstName: registerInfo.firstName,
+                    lastName: registerInfo.lastName,
+                    email: registerInfo.email,
+                    password: registerInfo.password
+                })
             });
-            console.log('Registration Success:', response.data);
+
+            if (!response.ok) {
+                throw new Error(`HTTP status ${response.status}`);
+            }
+
+            if (response.status === 202) { // Kontrollerar specifikt för 'Accepted' statuskod
+                console.log('Registration Success: User registered');
+            } else {
+                const data = await response.json(); // Försöker bara tolka som JSON om det förväntas vara innehåll
+                console.log('Registration Success:', data);
+            }
         } catch (error) {
             console.error('Registration Error:', error);
             setErrorMessage('Registrering misslyckades. Kontrollera uppgifterna och försök igen.');
         }
     };
 
+
     const toggleRegister = () => {
         setShowRegister(!showRegister);
     };
+
 
     return (
         <div className="login-container">
