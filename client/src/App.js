@@ -4,6 +4,7 @@ import LoginScreen from './screens/LoginScreen';
 import MenuScreen from "./screens/MenuScreen";
 import SurveyPage from './screens/SurveyPage'; // Uppdaterat import
 import SurveyDetails from './components/SurveyDetails';
+import CreateSurveyScreen from './screens/CreateSurveyScreen';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/menu" element={<MenuScreen />} />
                     <Route path="/survey/:surveyId" element={<SurveyPage />} /> {/* Ny rutt */}
                     <Route path="/survey/:surveyId/details" element={<SurveyDetails />} />
+                    <Route path="/create-survey" element={<CreateSurveyScreen />} />
                 </Routes>
             </div>
         </Router>

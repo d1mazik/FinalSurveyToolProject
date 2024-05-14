@@ -14,6 +14,10 @@ function LoginScreen() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const navigate = useNavigate(); // Använder useNavigate för att hantera navigation
 
+    const goToAdminPage = () => {
+        navigate('/create-survey'); // Byt ut '/create-survey' mot den faktiska sökvägen till din CreateSurveyScreen
+    };
+
     const handleLogin = async (event) => {
         event.preventDefault();
         setErrorMessage('');
@@ -101,6 +105,7 @@ function LoginScreen() {
                             />
                         </div>
                         <button type="submit">Login</button>
+                        <button type="button" onClick={goToAdminPage} style={{ marginTop: '10px', backgroundColor: 'black', color: 'white', cursor: 'pointer' }}>Admin</button>
                         {errorMessage && <div className="error-message">{errorMessage}</div>}
                         <div className="signup-link">
                             Don't have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Signup now</span>
@@ -170,6 +175,7 @@ function LoginScreen() {
                 <button onClick={() => { setModalIsOpen(false); setShowRegister(false); }}>OK</button>
             </Modal>
         </div>
+
     );
 }
 
