@@ -1,6 +1,9 @@
 package com.exam.surveytool.services;
 
+import com.exam.surveytool.dtos.SurveyDTO;
 import com.exam.surveytool.models.Survey;
+import com.exam.surveytool.models.User;
+import com.exam.surveytool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +14,24 @@ import java.util.NoSuchElementException;
 @Service
 public class SurveyService {
     private final SurveyRepository surveyRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public SurveyService(SurveyRepository surveyRepository) {
+    public SurveyService(SurveyRepository surveyRepository, UserRepository userRepository) {
         this.surveyRepository = surveyRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
-    public Survey createSurvey(Survey survey) {
+    public Survey createSurvey(SurveyDTO surveyDTO) {
+        User user = userRepository.findById(surveyDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + surveyDTO.getUserId()));
+
+        Survey survey = new Survey();
+        survey.setTitle(surveyDTO.getTitle());
+        survey.setDescription(surveyDTO.getDescription());
+        survey.setUser(user);
+
         return surveyRepository.save(survey);
     }
 

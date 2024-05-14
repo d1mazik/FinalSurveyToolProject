@@ -1,5 +1,6 @@
 package com.exam.surveytool.controllers;
 
+import com.exam.surveytool.dtos.SurveyDTO;
 import com.exam.surveytool.models.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,10 +38,11 @@ public class SurveyController {
     }
 
     @PostMapping
-    public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey) {
-        Survey createdSurvey = surveyService.createSurvey(survey);
+    public ResponseEntity<Survey> createSurvey(@RequestBody SurveyDTO surveyDTO) {
+        Survey createdSurvey = surveyService.createSurvey(surveyDTO);
         return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
     }
+
 
     @DeleteMapping ("/{id}")
     public ResponseEntity<String> deleteSurvey(@PathVariable Long id) {
