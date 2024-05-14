@@ -32,6 +32,7 @@ public class Survey {
     private User user;
 
     @OneToMany(mappedBy = "survey")
+    @JsonManagedReference
     private List<SurveyResponseSession> sessions;
 
     @Column(name = "created_at", nullable = false, updatable = false)

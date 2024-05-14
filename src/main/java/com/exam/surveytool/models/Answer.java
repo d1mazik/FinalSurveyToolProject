@@ -1,5 +1,6 @@
 package com.exam.surveytool.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "session_id")
+    @JsonBackReference
     private SurveyResponseSession session;
 
 
