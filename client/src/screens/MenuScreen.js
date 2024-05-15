@@ -1,28 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { startSurveySession } from '../service/surveyService'; // Justera sökvägen vid behov
 import surveyLogo from "../assets/Online_Survey_Icon_or_logo.svg.png";
 import '../styles/MenuScreen.css';
+import { getUserId, getToken } from "../utils/auth"; // Importera getToken om den är tillgänglig
 
 function MenuScreen() {
     const [surveys, setSurveys] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchSurveys = async () => {
+            const token = getToken(); // Hämta token från localStorage
+            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+
+            try {
+                const response = await fetch('/api/surveys', { headers });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setSurveys(data);
+            } catch (error) {
+                console.error('Error fetching surveys:', error);
+            }
+        };
+
         fetchSurveys();
     }, []);
 
-    const fetchSurveys = async () => {
-        try {
-            const response = await fetch('http://localhost:8080/api/surveys');
-            const data = await response.json();
-            setSurveys(data);
-        } catch (error) {
-            console.error('Failed to fetch surveys:', error);
+    const handleSurveyClick = async (surveyId) => {
+        const userId = getUserId(); // Använd funktionen för att hämta userId
+        if (!userId) {
+            console.error('No user ID found, user must be logged in');
+            return;
         }
-    };
-
-    const handleSurveyClick = (surveyId) => {
-        navigate(`/survey/${surveyId}`);
+        try {
+            const session = await startSurveySession(surveyId, userId);
+            navigate(`/survey/${surveyId}`, { state: { sessionId: session.id } });
+        } catch (error) {
+            console.error('Failed to initiate survey:', error);
+        }
     };
 
     return (

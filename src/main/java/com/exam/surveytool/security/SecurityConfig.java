@@ -33,7 +33,8 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/surveys/**",
                                 "/api/questions/**",
-                                "/api/answers/**"
+                                "/api/answers/**",
+                                "/api/session/**"
                         ).permitAll()
                                 .anyRequest()
                                     .authenticated()

@@ -5,6 +5,8 @@ import emailIcon from "../assets/email-logo.png";
 import passwordIcon from "../assets/password-logo.png";
 import backgroundImage from "../assets/survey-backround.webp";
 import '../styles/LoginScreen.css';
+import {setAuthData, setToken} from '../utils/auth';
+
 
 function LoginScreen() {
     const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
@@ -38,13 +40,17 @@ function LoginScreen() {
             }
 
             const data = await response.json();
+            setAuthData(data);  // Använd denna funktion för att spara token och userId
             console.log('Login Success:', data);
-            navigate('/menu'); // Navigerar till MenuScreen via URL '/menu'
+            navigate('/menu'); // Navigate to the MenuScreen
         } catch (error) {
             console.error('Login Error:', error);
             setErrorMessage('Felaktig e-postadress eller lösenord.');
         }
     };
+
+
+
 
     const handleRegister = async (event) => {
         event.preventDefault();
