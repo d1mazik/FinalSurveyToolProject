@@ -1,16 +1,15 @@
-// SurveyPage.jsx
-
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getQuestionsForSurvey, getSurveyTitle } from '../service/questionService';
+import { useParams, useLocation } from 'react-router-dom';
+import { getSurveyTitle, getQuestionsForSurvey} from '../service/questionService';
 import '../styles/surveyPage.css';
 
 function SurveyPage() {
     const { surveyId } = useParams();
+    const { state } = useLocation();
+    const sessionId = state.sessionId; // Assume sessionId is passed in state when navigating
     const [questions, setQuestions] = useState([]);
     const [surveyTitle, setSurveyTitle] = useState('');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [userAnswers, setUserAnswers] = useState([]);
 
     useEffect(() => {
         fetchQuestions();
@@ -18,30 +17,29 @@ function SurveyPage() {
     }, [surveyId]);
 
     const fetchQuestions = async () => {
-        try {
-            const data = await getQuestionsForSurvey(surveyId);
-            setQuestions(data);
-        } catch (error) {
-            console.error('Failed to fetch questions:', error);
-        }
+        const data = await getQuestionsForSurvey(surveyId);
+        setQuestions(data);
     };
 
     const fetchSurveyTitle = async () => {
-        try {
-            const title = await getSurveyTitle(surveyId);
-            setSurveyTitle(title);
-        } catch (error) {
-            console.error('Failed to fetch survey title:', error);
-        }
+        const title = await getSurveyTitle(surveyId);
+        setSurveyTitle(title);
     };
 
-    const handleAnswerSelect = (selectedOption) => {
-        setUserAnswers(prevAnswers => {
-            const updatedAnswers = [...prevAnswers];
-            updatedAnswers[currentQuestionIndex] = selectedOption;
-            return updatedAnswers;
-        });
-        setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+    const handleAnswerSelect = async (answer) => {
+        const currentQuestion = questions[currentQuestionIndex];
+        const answerData = {
+            text: answer.text || '',  // For TEXT and SCALE (if any text is needed)
+            selectedOption: answer.optionId,  // For OPTION type
+            scale: answer.scale  // For SCALE type
+        };
+
+        if (currentQuestionIndex < questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            console.log("Survey completed!");
+            // Handle survey completion here
+        }
     };
 
     const renderCurrentQuestion = () => {
