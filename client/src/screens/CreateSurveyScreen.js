@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { createSurvey, createQuestion } from '../service/questionService';
-import '../styles/CreateSurveyAndQuestionScreen.css'; // Importera specifika CSS för den här komponenten
+import '../styles/CreateSurveyAndQuestionScreen.css';
 
 function CreateSurveyAndQuestionScreen() {
-    // Tillstånd för undersökning och fråga
-    const [survey, setSurvey] = useState({ title: '', description: '' });
-    const [question, setQuestion] = useState({ text: '', type: 'OPTIONS', options: [], surveyId: '' });
-    const [optionsTemp, setOptionsTemp] = useState(''); // Tillstånd för temporära svarsalternativ
+    const [survey, setSurvey] = useState({ title: '', description: '', userId: '' });
+    const [question, setQuestion] = useState({ text: '', type: 'OPTIONS', options: [], minScale: null, maxScale: null, surveyId: '' });
+    const [optionsTemp, setOptionsTemp] = useState('');
 
-    // Funktion för att hantera inmatningsändringar
     const handleInputChange = (e, setter) => {
         setter(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    // Funktion för att lägga till svarsalternativ
-    const addOption = () => {
-        setQuestion(prev => ({ ...prev, options: [...prev.options, optionsTemp] }));
-        setOptionsTemp('');
+    const handleSelectChange = (e) => {
+        setQuestion(prev => ({ ...prev, type: e.target.value, options: [], minScale: null, maxScale: null }));
     };
 
-    // Funktion för att skapa en ny undersökning
+    const addOption = () => {
+        if (optionsTemp !== '') {
+            setQuestion(prev => ({ ...prev, options: [...prev.options, optionsTemp] }));
+            setOptionsTemp('');
+        }
+    };
+
     const handleCreateSurvey = async (e) => {
         e.preventDefault();
         try {
@@ -31,7 +33,6 @@ function CreateSurveyAndQuestionScreen() {
         }
     };
 
-    // Funktion för att lägga till en ny fråga
     const handleCreateQuestion = async (e) => {
         e.preventDefault();
         if (!question.surveyId) {
@@ -41,18 +42,15 @@ function CreateSurveyAndQuestionScreen() {
         try {
             await createQuestion(question);
             alert('Question added successfully');
-            setQuestion(prev => ({ ...prev, text: '', options: [], surveyId: '' }));
-            setOptionsTemp(''); // Återställ temporära svarsalternativ
+            setQuestion(prev => ({ ...prev, text: '', options: [], minScale: null, maxScale: null }));
         } catch (error) {
             alert('Error adding question: ' + error.message);
         }
     };
 
-    // Rendera komponenten
     return (
         <div className="survey-container">
             <div className="survey-form">
-                {/* Formulär för att skapa en undersökning */}
                 <form onSubmit={handleCreateSurvey}>
                     <h2>Create Survey</h2>
                     <input
@@ -72,9 +70,17 @@ function CreateSurveyAndQuestionScreen() {
                         placeholder="Enter survey description"
                         required
                     />
+                    <input
+                        type="text"
+                        name="userId"
+                        className="survey-input"
+                        value={survey.userId}
+                        onChange={e => handleInputChange(e, setSurvey)}
+                        placeholder="Enter user ID"
+                        required
+                    />
                     <button type="submit" className="survey-button">Create Survey</button>
                 </form>
-                {/* Formulär för att lägga till en fråga */}
                 <form onSubmit={handleCreateQuestion}>
                     <h2>Add Question</h2>
                     <input
@@ -86,29 +92,48 @@ function CreateSurveyAndQuestionScreen() {
                         placeholder="Enter question text"
                         required
                     />
-                    <input
-                        type="text"
-                        name="surveyId"
-                        className="survey-input"
-                        value={question.surveyId}
-                        onChange={e => handleInputChange(e, setQuestion)}
-                        placeholder="Enter survey ID"
-                        required
-                    />
-                    <input
-                        type="text"
-                        className="survey-input"
-                        value={optionsTemp}
-                        onChange={e => setOptionsTemp(e.target.value)}
-                        placeholder="Enter option"
-                    />
-                    <button type="button" className="survey-button" onClick={addOption}>Add Option</button>
-                    <ul className="options-list">
-                        {/* Visa alla tillagda svarsalternativ */}
-                        {question.options.map((option, index) => (
-                            <li key={index}>{option}</li>
-                        ))}
-                    </ul>
+                    <select name="type" onChange={handleSelectChange} value={question.type} className="survey-input">
+                        <option value="TEXT">Text</option>
+                        <option value="OPTIONS">Options</option>
+                        <option value="SCALE">Scale</option>
+                    </select>
+                    {question.type === 'OPTIONS' && (
+                        <>
+                            <input
+                                type="text"
+                                className="survey-input"
+                                value={optionsTemp}
+                                onChange={e => setOptionsTemp(e.target.value)}
+                                placeholder="Enter option"
+                            />
+                            <button type="button" className="survey-button" onClick={addOption}>Add Option</button>
+                            <ul className="options-list">
+                                {question.options.map((option, index) => (
+                                    <li key={index}>{option}</li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                    {question.type === 'SCALE' && (
+                        <>
+                            <input
+                                type="number"
+                                name="minScale"
+                                className="survey-input"
+                                value={question.minScale || ''}
+                                onChange={e => handleInputChange(e, setQuestion)}
+                                placeholder="Enter minimum scale"
+                            />
+                            <input
+                                type="number"
+                                name="maxScale"
+                                className="survey-input"
+                                value={question.maxScale || ''}
+                                onChange={e => handleInputChange(e, setQuestion)}
+                                placeholder="Enter maximum scale"
+                            />
+                        </>
+                    )}
                     <button type="submit" className="survey-button">Add Question to Survey</button>
                 </form>
             </div>
