@@ -5,6 +5,7 @@ import emailIcon from "../assets/email-logo.png";
 import passwordIcon from "../assets/password-logo.png";
 import backgroundImage from "../assets/survey-backround.webp";
 import '../styles/LoginScreen.css';
+import { setToken } from '../utils/auth';  // Ensure this utility is correctly importing the updated setToken
 
 function LoginScreen() {
     const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
@@ -12,7 +13,7 @@ function LoginScreen() {
     const [showRegister, setShowRegister] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const navigate = useNavigate(); // Använder useNavigate för att hantera navigation
+    const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -33,9 +34,10 @@ function LoginScreen() {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json();
+            const data = await response.json();  // Assuming the response includes token and userId
+            setToken(data.token, data.userId);  // Save the token and userId
             console.log('Login Success:', data);
-            navigate('/menu'); // Navigerar till MenuScreen via URL '/menu'
+            navigate('/menu');  // Navigate to the MenuScreen
         } catch (error) {
             console.error('Login Error:', error);
             setErrorMessage('Felaktig e-postadress eller lösenord.');
@@ -63,7 +65,7 @@ function LoginScreen() {
                 throw new Error(`HTTP status ${response.status}`);
             }
 
-            setModalIsOpen(true); // Visa modal vid framgång
+            setModalIsOpen(true);  // Show modal on success
         } catch (error) {
             console.error('Registration Error:', error);
             setErrorMessage('Registrering misslyckades. Kontrollera uppgifterna och försök igen.');
@@ -113,7 +115,7 @@ function LoginScreen() {
                     <form onSubmit={handleRegister}>
                         <div className="form-group">
                             <input
-                                type="firstName"
+                                type="text"
                                 placeholder="Enter your first name"
                                 value={registerInfo.firstName}
                                 onChange={(e) => setRegisterInfo({ ...registerInfo, firstName: e.target.value })}
@@ -122,7 +124,7 @@ function LoginScreen() {
                         </div>
                         <div className="form-group">
                             <input
-                                type="lastName"
+                                type="text"
                                 placeholder="Enter your last name"
                                 value={registerInfo.lastName}
                                 onChange={(e) => setRegisterInfo({ ...registerInfo, lastName: e.target.value })}

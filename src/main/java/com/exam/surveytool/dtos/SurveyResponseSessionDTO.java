@@ -8,5 +8,4 @@ import java.util.Set;
 public class SurveyResponseSessionDTO {
     private Long surveyId;
     private Long userId;
-    private Set<Long> answerIds;
 }

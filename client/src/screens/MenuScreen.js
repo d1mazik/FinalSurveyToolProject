@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// Import the service function in your MenuScreen component
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { startSurveySession } from '../service/surveyService'; // Adjust the path as necessary
 import surveyLogo from "../assets/Online_Survey_Icon_or_logo.svg.png";
 import '../styles/MenuScreen.css';
+import {getUserId} from "../utils/auth";
 
 function MenuScreen() {
     const [surveys, setSurveys] = useState([]);
     const navigate = useNavigate();
 
+    // Placeholder function to fetch surveys, replace with actual fetching logic
+    const fetchSurveys = async () => {
+        // Example fetch logic, replace with actual API call
+        const response = await fetch('/api/surveys');
+        const data = await response.json();
+        setSurveys(data);
+    };
+
     useEffect(() => {
         fetchSurveys();
     }, []);
 
-    const fetchSurveys = async () => {
+    const handleSurveyClick = async (surveyId) => {
+        const userId = getUserId(); // Fetch the userId from localStorage
         try {
-            const response = await fetch('http://localhost:8080/api/surveys');
-            const data = await response.json();
-            setSurveys(data);
+            const session = await startSurveySession(surveyId, userId);
+            navigate(`/survey/${surveyId}`, { state: { sessionId: session.id } });
         } catch (error) {
-            console.error('Failed to fetch surveys:', error);
+            console.error('Failed to initiate survey:', error);
         }
     };
 
-    const handleSurveyClick = (surveyId) => {
-        navigate(`/survey/${surveyId}`);
-    };
 
     return (
         <div className="menu-container">
@@ -38,5 +46,4 @@ function MenuScreen() {
         </div>
     );
 }
-
 export default MenuScreen;

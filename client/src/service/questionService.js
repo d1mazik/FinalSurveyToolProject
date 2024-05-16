@@ -83,3 +83,28 @@ export const deleteQuestion = async (id) => {
     }
 
 };
+
+export const submitAnswer = async (sessionId, questionId, answerData) => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch('/api/answers', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sessionId: sessionId,
+                questionId: questionId,
+                ...answerData
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to submit answer: ${response.statusText}`);
+        }
+        return await response.json();  // This should return the newly created or updated answer
+    } catch (error) {
+        console.error('Error submitting answer:', error);
+        throw error;
+    }
+};

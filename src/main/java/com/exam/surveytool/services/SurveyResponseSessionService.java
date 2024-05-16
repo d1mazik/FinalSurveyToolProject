@@ -10,17 +10,20 @@ import com.exam.surveytool.repositories.SurveyRepository;
 import com.exam.surveytool.repositories.SurveyResponseSessionRepository;
 import com.exam.surveytool.repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SurveyResponseSessionService {
-    private SurveyRepository surveyRepository;
-    private UserRepository userRepository;
-    private AnswerRepository answerRepository;
-    private SurveyResponseSessionRepository sessionRepository;
+    private final SurveyRepository surveyRepository;
+    private final UserRepository userRepository;
+    private final AnswerRepository answerRepository;
+    private final SurveyResponseSessionRepository sessionRepository;
 
     @Transactional
     public SurveyResponseSession startSession(SurveyResponseSessionDTO sessionDTO) {
@@ -32,21 +35,21 @@ public class SurveyResponseSessionService {
         SurveyResponseSession session = new SurveyResponseSession();
         session.setSurvey(survey);
         session.setUser(user);
+        session.setIsActive(true);
 
         return sessionRepository.save(session);
     }
 
-    @Transactional
-    public void addAnswersToSession(Long sessionId, Set<Long> answerIds) {
+
+    public SurveyResponseSession endSession(Long sessionId) {
         SurveyResponseSession session = sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new RuntimeException("Session not found"));
+                .orElseThrow(() -> new RuntimeException("Session not found with id: " + sessionId));
 
-        Set<Answer> answers = answerIds.stream()
-                .map(id -> answerRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Answer not found with id: " + id)))
-                .collect(Collectors.toSet());
+        session.setEndedAt(LocalDateTime.now());
+        session.setIsActive(false);
 
-        session.getAnswers().addAll(answers);
-        sessionRepository.save(session);
+        return sessionRepository.save(session);
     }
+
+
 }
