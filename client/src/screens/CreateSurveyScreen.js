@@ -83,6 +83,11 @@ function CreateSurveyAndQuestionScreen() {
                 </form>
                 <form onSubmit={handleCreateQuestion}>
                     <h2>Add Question</h2>
+                    <select name="type" onChange={handleSelectChange} value={question.type} className="survey-input">
+                        <option value="TEXT">Text</option>
+                        <option value="OPTIONS">Options</option>
+                        <option value="SCALE">Scale</option>
+                    </select>
                     <input
                         type="text"
                         name="text"
@@ -92,11 +97,7 @@ function CreateSurveyAndQuestionScreen() {
                         placeholder="Enter question text"
                         required
                     />
-                    <select name="type" onChange={handleSelectChange} value={question.type} className="survey-input">
-                        <option value="TEXT">Text</option>
-                        <option value="OPTIONS">Options</option>
-                        <option value="SCALE">Scale</option>
-                    </select>
+
                     {question.type === 'OPTIONS' && (
                         <>
                             <input
