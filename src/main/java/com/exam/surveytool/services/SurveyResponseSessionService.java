@@ -1,5 +1,6 @@
 package com.exam.surveytool.services;
 
+import com.exam.surveytool.dtos.EndSessionDTO;
 import com.exam.surveytool.dtos.SurveyResponseSessionDTO;
 import com.exam.surveytool.models.Answer;
 import com.exam.surveytool.models.Survey;
@@ -41,15 +42,23 @@ public class SurveyResponseSessionService {
     }
 
 
-    public SurveyResponseSession endSession(Long sessionId) {
+    @Transactional
+    public EndSessionDTO endSession(Long sessionId) {
         SurveyResponseSession session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new RuntimeException("Session not found with id: " + sessionId));
 
         session.setEndedAt(LocalDateTime.now());
         session.setIsActive(false);
 
-        return sessionRepository.save(session);
+        session = sessionRepository.save(session);
+        return toEndSessionDTO(session);
     }
 
+    private EndSessionDTO toEndSessionDTO(SurveyResponseSession session) {
+        return new EndSessionDTO(
+                session.getEndedAt(),
+                session.getIsActive()
+        );
+    }
 
 }

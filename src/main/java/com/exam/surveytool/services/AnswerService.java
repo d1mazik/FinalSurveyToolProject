@@ -7,6 +7,7 @@ import com.exam.surveytool.models.Question;
 import com.exam.surveytool.repositories.AnswerRepository;
 import com.exam.surveytool.repositories.OptionRepository;
 import com.exam.surveytool.repositories.QuestionRepository;
+import com.exam.surveytool.repositories.SurveyResponseSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +20,14 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final OptionRepository optionRepository;
+    private final SurveyResponseSessionRepository surveyResponseSessionRepository;
 
     @Autowired
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, OptionRepository optionRepository) {
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, OptionRepository optionRepository, SurveyResponseSessionRepository surveyResponseSessionRepository) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.optionRepository = optionRepository;
+        this.surveyResponseSessionRepository = surveyResponseSessionRepository;
     }
 
     public Answer createAnswer(AnswerDTO answerDTO) {
@@ -41,6 +44,8 @@ public class AnswerService {
         answer.setText(answerDTO.getText());
         answer.setScale(answerDTO.getScale());
         answer.setSelectedOption(option);
+        answer.setSession(surveyResponseSessionRepository.findById(answerDTO.getSessionId())
+                .orElseThrow(() -> new NoSuchElementException("Session not found with id: " + answerDTO.getSessionId())));
 
         return answerRepository.save(answer);
     }

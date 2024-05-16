@@ -95,11 +95,12 @@ export const endSession = async (sessionId) => {
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`http://localhost:8080/api/session/end/${sessionId}`, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
+            body: JSON.stringify({ sessionId })
         });
         if (!response.ok) {
             throw new Error('Failed to end session');
