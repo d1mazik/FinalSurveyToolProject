@@ -46,7 +46,7 @@
 }
 
 .survey-button:hover {
-    background-color: #45A049; /* Slightly darker green on hover */
+    background-color: #45A049;
 }
 
 /* Options list styling */
@@ -64,4 +64,12 @@
     color: red;
     font-size: 0.9rem;
     margin-top: 0.5rem;
+}
+
+.edit-survey-button {
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
 }

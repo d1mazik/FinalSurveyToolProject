@@ -30,18 +30,25 @@ function MenuScreen() {
     }, []);
 
     const handleSurveyClick = async (surveyId) => {
-        const userId = getUserId(); // Använd funktionen för att hämta userId
+        const userId = getUserId();
         if (!userId) {
-            console.error('No user ID found, user must be logged in');
+            alert('No user ID found, please log in');
             return;
         }
+
         try {
             const session = await startSurveySession(surveyId, userId);
-            navigate(`/survey/${surveyId}`, { state: { sessionId: session.id } });
+            if (session && session.id) {
+                navigate(`/survey/${surveyId}`, { state: { sessionId: session.id } });
+            } else {
+                alert('Failed to start survey session, please try again.');
+            }
         } catch (error) {
             console.error('Failed to initiate survey:', error);
+            alert('Failed to initiate survey. Please check your connection and try again.');
         }
     };
+
 
     return (
         <div className="menu-container">

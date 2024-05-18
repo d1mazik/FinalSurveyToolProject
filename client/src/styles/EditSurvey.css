@@ -1,0 +1,72 @@
+/* Container for the entire page */
+.survey-container {
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #E0E0E0;
+}
+
+/* Form styling for displaying survey information */
+.survey-form {
+    width: 40%; /* Adjust width as needed for display */
+    padding: 2rem;
+    background: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    margin-bottom: 20px; /* Space between forms when stacked */
+}
+
+/* Button styling specifically for editing and deleting */
+.edit-button,
+.delete-button {
+    width: auto; /* Auto width based on text */
+    padding: 8px 16px;
+    margin-right: 10px; /* Space between buttons */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #4CAF50; /* Green */
+}
+
+.delete-button {
+    background-color: #F44336; /* Red */
+}
+
+.edit-button:hover,
+.delete-button:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}
+
+/* Additional styles for loading and error messages */
+.loading-text,
+.error-text {
+    color: #333;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Style for action buttons at the bottom */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.action-button {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #2196F3; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.action-button:hover {
+    background-color: #1976D2;
+}
