@@ -111,5 +111,3 @@ export const endSession = async (sessionId) => {
         throw error;  // Kasta fel så att det kan hanteras i frontend
     }
 };
-
-
