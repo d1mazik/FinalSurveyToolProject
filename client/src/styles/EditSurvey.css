@@ -20,14 +20,17 @@
 
 /* Button styling specifically for editing and deleting */
 .edit-button,
-.delete-button {
-    width: auto; /* Auto width based on text */
-    padding: 8px 16px;
+.delete-button,
+.load-button { /* Added class for load button */
+    width: 80px; /* Smaller fixed width */
+    padding: 8px 12px; /* Adjust padding */
     margin-right: 10px; /* Space between buttons */
     color: white;
+    font-size: 14px; /* Smaller font size */
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: opacity 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .edit-button {
@@ -38,9 +41,14 @@
     background-color: #F44336; /* Red */
 }
 
+.load-button {
+    background-color: #2196F3; /* Blue */
+}
+
 .edit-button:hover,
-.delete-button:hover {
-    opacity: 0.9; /* Slight opacity change on hover */
+.delete-button:hover,
+.load-button:hover {
+    opacity: 0.85; /* Slight opacity change on hover */
 }
 
 /* Additional styles for loading and error messages */
@@ -69,4 +77,39 @@
 
 .action-button:hover {
     background-color: #1976D2;
+}
+
+.modal {
+    display: none; /* Dold som standard */
+    position: fixed;
+    z-index: 1; /* Sitta ovanpå allt */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full bredd */
+    height: 100%; /* Full höjd */
+    overflow: auto; /* Aktivera skroll om det behövs */
+    background-color: rgb(0,0,0); /* Fallback färg */
+    background-color: rgba(0,0,0,0.4); /* Svart med opacitet */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% från toppen och centrerad */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Kunde vara mer eller mindre, beroende på skärm */
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

@@ -2,14 +2,15 @@ package com.exam.surveytool.controllers;
 
 import com.exam.surveytool.dtos.SurveyDTO;
 import com.exam.surveytool.models.Survey;
+import com.exam.surveytool.services.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.exam.surveytool.services.SurveyService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -23,7 +24,6 @@ public class SurveyController {
     public SurveyController(SurveyService surveyService) {
         this.surveyService = surveyService;
     }
-
 
     @GetMapping
     public ResponseEntity<List<Survey>> getAllSurveys() {
@@ -43,10 +43,19 @@ public class SurveyController {
         return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Survey> updateSurvey(@PathVariable Long id, @RequestBody SurveyDTO surveyDTO) {
+        try {
+            Survey updatedSurvey = surveyService.updateSurvey(id, surveyDTO);
+            return new ResponseEntity<>(updatedSurvey, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
-    @DeleteMapping ("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSurvey(@PathVariable Long id) {
-            surveyService.deleteSurvey(id);
-            return ResponseEntity.ok("Survey deleted successfully");
+        surveyService.deleteSurvey(id);
+        return ResponseEntity.ok("Survey deleted successfully");
     }
 }
