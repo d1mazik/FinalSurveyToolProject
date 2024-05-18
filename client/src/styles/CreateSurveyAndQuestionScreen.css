@@ -1,0 +1,75 @@
+/* Container for the entire page */
+.survey-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #E0E0E0; /* Light grey background for a subtle look */
+}
+
+/* Form styling for creating surveys and questions */
+.survey-form {
+    width: 30%; /* Wider form for better usability */
+    padding: 2rem;
+    background: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px; /* Rounded corners for modern look */
+}
+
+/* Styling for input fields and text areas */
+.survey-input,
+.survey-textarea {
+    width: 100%;
+    padding: 10px 10px 10px 0; /* Right padding removed to avoid text overflow */
+    border: none; /* No borders */
+    border-bottom: 1px solid #ccc; /* Single line at the bottom */
+    background: transparent; /* Transparent background */
+    outline: none; /* No outline when focused */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.survey-textarea {
+    height: 100px;
+    resize: vertical; /* Allow vertical resize */
+    border-bottom: 1px solid #ccc; /* Consistent with input styling */
+}
+
+/* Button styling */
+.survey-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.survey-button:hover {
+    background-color: #45A049;
+}
+
+/* Options list styling */
+.options-list {
+    list-style: none;
+    padding: 0;
+}
+
+.options-list li {
+    margin-bottom: 0.5rem;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.edit-survey-button {
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+}

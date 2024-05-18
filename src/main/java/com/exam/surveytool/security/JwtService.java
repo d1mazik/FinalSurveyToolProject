@@ -1,5 +1,6 @@
 package com.exam.surveytool.security;
 
+import com.exam.surveytool.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,10 +32,9 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        User user = (User) userDetails; // Cast to your User class if it carries the ID
+        extraClaims.put("userId", user.getId()); // Ensure your User class has getId()
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
@@ -71,7 +71,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
+    Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
