@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { createSurvey, createQuestion } from '../service/questionService';
+import { useNavigate } from 'react-router-dom';
+import { createSurvey, createQuestion } from '../service/surveyService';
 import '../styles/CreateSurveyAndQuestionScreen.css';
 
 function CreateSurveyAndQuestionScreen() {
+    const navigate = useNavigate();
     const [survey, setSurvey] = useState({ title: '', description: '', userId: '' });
-    const [question, setQuestion] = useState({ text: '', type: 'OPTIONS', options: [], minScale: null, maxScale: null, surveyId: '' });
+    const [question, setQuestion] = useState({
+        text: '',
+        type: 'OPTIONS',
+        options: [],
+        minScale: null,
+        maxScale: null,
+        surveyId: ''
+    });
     const [optionsTemp, setOptionsTemp] = useState('');
 
     const handleInputChange = (e, setter) => {
@@ -27,7 +36,7 @@ function CreateSurveyAndQuestionScreen() {
         try {
             const data = await createSurvey(survey);
             alert('Survey created successfully');
-            setQuestion(prev => ({ ...prev, surveyId: data.id }));
+            setQuestion(prev => ({ ...prev, surveyId: data.id.toString() })); // Converting ID to string if needed
         } catch (error) {
             alert('Error creating survey: ' + error.message);
         }
@@ -36,7 +45,7 @@ function CreateSurveyAndQuestionScreen() {
     const handleCreateQuestion = async (e) => {
         e.preventDefault();
         if (!question.surveyId) {
-            alert('Please create a survey first');
+            alert('Please create a survey first or enter a survey ID');
             return;
         }
         try {
@@ -46,6 +55,10 @@ function CreateSurveyAndQuestionScreen() {
         } catch (error) {
             alert('Error adding question: ' + error.message);
         }
+    };
+
+    const navigateToEditScreen = () => {
+        navigate('/edit-survey'); // Använd rätt path som definierats i din routerkonfiguration
     };
 
     return (
@@ -85,11 +98,11 @@ function CreateSurveyAndQuestionScreen() {
                     <h2>Add Question</h2>
                     <input
                         type="text"
-                        name="text"
+                        name="surveyId"
                         className="survey-input"
-                        value={question.text}
+                        value={question.surveyId}
                         onChange={e => handleInputChange(e, setQuestion)}
-                        placeholder="Enter question text"
+                        placeholder="Enter Survey ID"
                         required
                     />
                     <select name="type" onChange={handleSelectChange} value={question.type} className="survey-input">
@@ -97,6 +110,15 @@ function CreateSurveyAndQuestionScreen() {
                         <option value="OPTIONS">Options</option>
                         <option value="SCALE">Scale</option>
                     </select>
+                    <input
+                        type="text"
+                        name="text"
+                        className="survey-input"
+                        value={question.text}
+                        onChange={e => handleInputChange(e, setQuestion)}
+                        placeholder="Enter question text"
+                        required
+                    />
                     {question.type === 'OPTIONS' && (
                         <>
                             <input
@@ -136,6 +158,7 @@ function CreateSurveyAndQuestionScreen() {
                     )}
                     <button type="submit" className="survey-button">Add Question to Survey</button>
                 </form>
+                <button onClick={navigateToEditScreen} className="survey-button edit-survey-button">Edit Surveys and Questions</button>
             </div>
         </div>
     );
