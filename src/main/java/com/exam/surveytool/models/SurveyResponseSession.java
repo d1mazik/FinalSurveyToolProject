@@ -1,6 +1,7 @@
 package com.exam.surveytool.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,6 +38,10 @@ public class SurveyResponseSession {
 
     @Column(name = "started_at", nullable = false)
     private LocalDateTime startedAt; // Tiden då sessionen startade.
+
+    @Column(name = "isActive")
+    @Getter @Setter
+    private Boolean isActive;
 
     @Column(name = "ended_at")
     private LocalDateTime endedAt; // Tiden då sessionen avslutades.

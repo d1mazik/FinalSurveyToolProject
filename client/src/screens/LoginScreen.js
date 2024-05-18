@@ -5,8 +5,7 @@ import emailIcon from "../assets/email-logo.png";
 import passwordIcon from "../assets/password-logo.png";
 import backgroundImage from "../assets/survey-backround.webp";
 import '../styles/LoginScreen.css';
-import {setAuthData, setToken} from '../utils/auth';
-
+import { setToken } from '../utils/auth';  // Ensure this utility is correctly importing the updated setToken
 
 function LoginScreen() {
     const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
@@ -14,11 +13,7 @@ function LoginScreen() {
     const [showRegister, setShowRegister] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const navigate = useNavigate(); // Använder useNavigate för att hantera navigation
-
-    const goToAdminPage = () => {
-        navigate('/create-survey'); // Byt ut '/create-survey' mot den faktiska sökvägen till din CreateSurveyScreen
-    };
+    const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -39,18 +34,15 @@ function LoginScreen() {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json();
-            setAuthData(data);  // Använd denna funktion för att spara token och userId
+            const data = await response.json();  // Assuming the response includes token and userId
+            setToken(data.token, data.userId);  // Save the token and userId
             console.log('Login Success:', data);
-            navigate('/menu'); // Navigate to the MenuScreen
+            navigate('/menu');  // Navigate to the MenuScreen
         } catch (error) {
             console.error('Login Error:', error);
             setErrorMessage('Felaktig e-postadress eller lösenord.');
         }
     };
-
-
-
 
     const handleRegister = async (event) => {
         event.preventDefault();
@@ -73,7 +65,7 @@ function LoginScreen() {
                 throw new Error(`HTTP status ${response.status}`);
             }
 
-            setModalIsOpen(true); // Visa modal vid framgång
+            setModalIsOpen(true);  // Show modal on success
         } catch (error) {
             console.error('Registration Error:', error);
             setErrorMessage('Registrering misslyckades. Kontrollera uppgifterna och försök igen.');
@@ -111,7 +103,6 @@ function LoginScreen() {
                             />
                         </div>
                         <button type="submit">Login</button>
-                        <button type="button" onClick={goToAdminPage} style={{ marginTop: '10px', backgroundColor: 'black', color: 'white', cursor: 'pointer' }}>Admin</button>
                         {errorMessage && <div className="error-message">{errorMessage}</div>}
                         <div className="signup-link">
                             Don't have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Signup now</span>
@@ -124,7 +115,7 @@ function LoginScreen() {
                     <form onSubmit={handleRegister}>
                         <div className="form-group">
                             <input
-                                type="firstName"
+                                type="text"
                                 placeholder="Enter your first name"
                                 value={registerInfo.firstName}
                                 onChange={(e) => setRegisterInfo({ ...registerInfo, firstName: e.target.value })}
@@ -133,7 +124,7 @@ function LoginScreen() {
                         </div>
                         <div className="form-group">
                             <input
-                                type="lastName"
+                                type="text"
                                 placeholder="Enter your last name"
                                 value={registerInfo.lastName}
                                 onChange={(e) => setRegisterInfo({ ...registerInfo, lastName: e.target.value })}
@@ -181,7 +172,6 @@ function LoginScreen() {
                 <button onClick={() => { setModalIsOpen(false); setShowRegister(false); }}>OK</button>
             </Modal>
         </div>
-
     );
 }
 

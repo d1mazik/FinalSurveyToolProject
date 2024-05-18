@@ -1,27 +1,32 @@
 // src/utils/auth.js
 
-export const getToken = () => localStorage.getItem('token');
+// Functions to handle token and userId storage in local storage.
 
-export const authHeader = () => {
-    const token = getToken();
-    if (token) {
-        return {'Authorization': `Bearer ${token}`};
-    } else {
-        return {};
-    }
-};
-
-// src/utils/auth.js
-
-export const setToken = (token) => {
+export const setToken = (token, userId) => {
     localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId); // Storing userId
 };
 
-export const setAuthData = (authData) => {
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('userId', authData.userId); // Antag att servern skickar userId tillsammans med token
+export const getToken = () => {
+    return localStorage.getItem('token');
 };
 
 export const getUserId = () => {
     return localStorage.getItem('userId');
 };
+
+export const removeAuthData = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+};
+
+export const authHeader = () => {
+    const token = getToken();
+    if (token) {
+        return { 'Authorization': `Bearer ${token}` };
+    } else {
+        return {};
+    }
+};
+
+
