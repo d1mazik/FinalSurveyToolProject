@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSurveys, deleteSurvey, getQuestionsForSurvey, updateSurvey } from '../service/surveyService';
+import { getSurveys, deleteSurvey, updateSurvey } from '../service/surveyService';
+import { getQuestionsForSurvey } from '../service/questionService';
 import { deleteQuestion, updateQuestion } from '../service/questionService';
 import '../styles/EditSurvey.css';
 

@@ -14,13 +14,18 @@ export const getSurveyTitle = async (surveyId) => {
     }
 };
 
+// service/questionService.js
+
+// service/questionService.js
 export const getQuestionsForSurvey = async (surveyId) => {
     const token = localStorage.getItem('token');
     try {
         const response = await fetch(`/api/questions/survey/${surveyId}`, {
+            method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
-            },
+                'Content-Type': 'application/json'
+            }
         });
         if (!response.ok) throw new Error('Failed to fetch questions');
         return await response.json();
@@ -29,6 +34,9 @@ export const getQuestionsForSurvey = async (surveyId) => {
         throw error;
     }
 };
+
+
+
 
 export const getQuestions = async () => {
     try {
