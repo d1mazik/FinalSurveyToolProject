@@ -56,3 +56,83 @@
     color: white;
     transform: scale(1.05);
 }
+
+.text-input {
+    width: 30%;  /* Justera bredden till 40% av dess container */
+    padding: 3px;
+    margin-bottom: 20px;
+    border: 2px solid #6200EA;  /* Solid border med en stark färg */
+    border-radius: 5px;  /* Rundade hörn */
+    background: white;  /* Vit bakgrund för bättre läsbarhet */
+    outline: none;  /* Ta bort blå kant som kan dyka upp vid fokus */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);  /* Lägg till en lätt skugga för djup */
+    transition: border-color 0.3s ease-in-out;  /* Smooth transition för border color */
+    font-size: 16px; /* Ökar textstorleken för bättre läsbarhet */
+}
+
+.text-input:focus {
+    border-color: #4b0082;  /* Mörkare färg vid fokus */
+}
+
+
+
+.next-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;  /* Grön färg för "Nästa" knappen */
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;
+    display: inline-block;
+}
+
+.next-button:hover {
+    background-color: #45a049;  /* Mörkare grön vid hover */
+}
+
+.finish-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #f44336;  /* Röd färg för "Avsluta" knappen */
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;
+    display: inline-block;
+}
+
+.finish-button:hover {
+    background-color: #d32f2f;  /* Mörkare röd vid hover */
+}
+
+
+.finish-button:active {
+    transform: scale(0.95); /* Mindre vid klick */
+}
+
+.scale-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    color: #6200EA;
+    border: 2px solid #6200EA;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    width: 150px; /* Halvera bredden jämfört med option-button */
+    text-align: center; /* Centrera texten horisontellt */
+}
+
+.scale-button:hover {
+    background-color: #4b0082;
+    color: white;
+    transform: scale(1.05);
+}

@@ -14,16 +14,29 @@ export const getSurveyTitle = async (surveyId) => {
     }
 };
 
+// service/questionService.js
+
+// service/questionService.js
 export const getQuestionsForSurvey = async (surveyId) => {
+    const token = localStorage.getItem('token');
     try {
-        const response = await fetch(`/api/questions/survey/${surveyId}`);
-        if (!response.ok) throw new Error('Network response was not ok');
+        const response = await fetch(`/api/questions/survey/${surveyId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) throw new Error('Failed to fetch questions');
         return await response.json();
     } catch (error) {
-        console.error('Error fetching questions for survey:', error);
+        console.error('Error fetching questions:', error);
         throw error;
     }
 };
+
+
+
 
 export const getQuestions = async () => {
     try {
@@ -52,7 +65,6 @@ export const createQuestion = async (questionData) => {
         throw error;
     }
 };
-
 export const updateQuestion = async (id, questionData) => {
     try {
         const response = await fetch(`/api/questions/${id}`, {

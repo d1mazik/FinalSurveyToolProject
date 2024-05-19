@@ -3,11 +3,12 @@ package com.exam.surveytool.services;
 import com.exam.surveytool.dtos.SurveyDTO;
 import com.exam.surveytool.models.Survey;
 import com.exam.surveytool.models.User;
+import com.exam.surveytool.repositories.SurveyRepository;
 import com.exam.surveytool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.exam.surveytool.repositories.SurveyRepository;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -44,15 +45,13 @@ public class SurveyService {
     }
 
     @Transactional
-    public Survey updateSurvey(Long id, Survey surveyDetails) {
+    public Survey updateSurvey(Long id, SurveyDTO surveyDTO) {
         Survey existingSurvey = surveyRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Survey with id: " + id + " was not found"));
 
-        // Uppdatera de fält som behövs från surveyDetails
-        existingSurvey.setTitle(surveyDetails.getTitle());
-        existingSurvey.setDescription(surveyDetails.getDescription());
+        existingSurvey.setTitle(surveyDTO.getTitle());
+        existingSurvey.setDescription(surveyDTO.getDescription());
 
-        // onSave eller onUpdate metoder i Survey-klassen kommer automatiskt att hantera createdAt och updatedAt.
         return surveyRepository.save(existingSurvey);
     }
 

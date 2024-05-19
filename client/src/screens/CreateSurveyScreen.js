@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createSurvey, createQuestion } from '../service/surveyService';
+import { createSurvey } from '../service/surveyService';
+import { createQuestion } from '../service/questionService';
+
 import '../styles/CreateSurveyAndQuestionScreen.css';
 
 function CreateSurveyAndQuestionScreen() {
