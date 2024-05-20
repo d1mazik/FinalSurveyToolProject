@@ -1,6 +1,7 @@
 package com.exam.surveytool.models;
 import com.exam.surveytool.enums.EQuestionType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id")
     @JsonBackReference
+    @JsonIgnore
     private Survey survey;
 
 

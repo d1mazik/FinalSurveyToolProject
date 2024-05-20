@@ -37,8 +37,11 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.mockito:mockito-core:3.6.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:3.6.0")
 }
 
 tasks.withType<Test> {
