@@ -26,12 +26,11 @@ function SurveyPage() {
     }, [surveyId]);
 
     const handleAnswerSelect = async () => {
+        await submitAnswer(sessionId, questions[currentQuestionIndex].id, currentAnswer);
         if (currentQuestionIndex < questions.length - 1) {
-            await submitAnswer(sessionId, questions[currentQuestionIndex].id, currentAnswer);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setCurrentAnswer({});
         } else {
-            await submitAnswer(sessionId, questions[currentQuestionIndex].id, currentAnswer);
             await endSession(sessionId);
             setSurveyCompleted(true);
             navigate('/menu');
@@ -61,19 +60,39 @@ function SurveyPage() {
                 return (
                     <div className="options-list">
                         {currentQuestion.options.map(option => (
-                            <button key={option.id} className="option-button" onClick={() => handleAnswerSelect({ optionId: option.id })}>
-                                {option.text}
-                            </button>
+                            <div key={option.id} className="option-item">
+                                <input
+                                    type="radio"
+                                    id={`option-${option.id}`}
+                                    name={`options-${currentQuestionIndex}`}
+                                    value={option.id}
+                                    checked={currentAnswer.selectedOption === option.id}
+                                    onChange={handleOptionChange}
+                                />
+                                <label htmlFor={`option-${option.id}`} className="option-button">
+                                    {option.text}
+                                </label>
+                            </div>
                         ))}
                     </div>
                 );
             case 'SCALE':
                 return (
-                    <div>
+                    <div className="scale-list">
                         {[...Array(currentQuestion.maxScale - currentQuestion.minScale + 1).keys()].map(scale => (
-                            <button key={scale + currentQuestion.minScale} className="scale-button" onClick={() => handleAnswerSelect({ scale: scale + currentQuestion.minScale })}>
-                                {scale + currentQuestion.minScale}
-                            </button>
+                            <div key={scale + currentQuestion.minScale} className="scale-item">
+                                <input
+                                    type="radio"
+                                    id={`scale-${scale + currentQuestion.minScale}`}
+                                    name={`scale-${currentQuestionIndex}`}
+                                    value={scale + currentQuestion.minScale}
+                                    checked={currentAnswer.scale === (scale + currentQuestion.minScale)}
+                                    onChange={handleScaleChange}
+                                />
+                                <label htmlFor={`scale-${scale + currentQuestion.minScale}`} className="scale-button">
+                                    {scale + currentQuestion.minScale}
+                                </label>
+                            </div>
                         ))}
                     </div>
                 );

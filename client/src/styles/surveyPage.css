@@ -26,61 +26,65 @@
     color: #fff;
 }
 
-.options-list {
+.options-list,
+.scale-list {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Horisontell layout */
     align-items: center;
-    list-style: none; /* Ta bort punkterna framför svaren */
+    list-style: none;
+    padding: 0; /* Ta bort eventuell standard padding */
+    margin: 0; /* Ta bort eventuell standard margin */
 }
 
-.option-item {
-    margin-bottom: 10px;
+.option-item,
+.scale-item {
+    margin-right: 10px; /* Lägg till mellanrum mellan alternativen */
 }
 
-.option-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: white;
-    color: #6200EA;
+input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
     border: 2px solid #6200EA;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
-    width: 300px; /* Ange en fast bredd för att göra alla svarsalternativ lika stora */
-    text-align: center; /* Centrera texten horisontellt */
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.option-button:hover {
-    background-color: #4b0082;
-    color: white;
-    transform: scale(1.05);
+input[type="radio"]:checked {
+    background-color: green; /* Ändra färg här */
+    border-color: green;
+}
+
+input[type="radio"]:checked + label {
+    background-color: green; /* Bakgrundsfärg för markerad label */
+    color: white; /* Textfärg för markerad label */
+    border-color: green;
 }
 
 .text-input {
-    width: 30%;  /* Justera bredden till 40% av dess container */
+    width: 30%;
     padding: 3px;
     margin-bottom: 20px;
-    border: 2px solid #6200EA;  /* Solid border med en stark färg */
-    border-radius: 5px;  /* Rundade hörn */
-    background: white;  /* Vit bakgrund för bättre läsbarhet */
-    outline: none;  /* Ta bort blå kant som kan dyka upp vid fokus */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);  /* Lägg till en lätt skugga för djup */
-    transition: border-color 0.3s ease-in-out;  /* Smooth transition för border color */
-    font-size: 16px; /* Ökar textstorleken för bättre läsbarhet */
+    border: 2px solid #6200EA;
+    border-radius: 5px;
+    background: white;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease-in-out;
+    font-size: 16px;
 }
 
 .text-input:focus {
-    border-color: #4b0082;  /* Mörkare färg vid fokus */
+    border-color: #4b0082;
 }
-
-
 
 .next-button {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #4CAF50;  /* Grön färg för "Nästa" knappen */
+    background-color: #4CAF50;
     border: none;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -88,17 +92,18 @@
     transition: background-color 0.3s ease;
     width: auto;
     display: inline-block;
+    margin-top: 20px; /* Lägg till marginal över knappen */
 }
 
 .next-button:hover {
-    background-color: #45a049;  /* Mörkare grön vid hover */
+    background-color: #45a049;
 }
 
 .finish-button {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #f44336;  /* Röd färg för "Avsluta" knappen */
+    background-color: #f44336;
     border: none;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -106,18 +111,18 @@
     transition: background-color 0.3s ease;
     width: auto;
     display: inline-block;
+    margin-top: 20px; /* Lägg till marginal över knappen */
 }
 
 .finish-button:hover {
-    background-color: #d32f2f;  /* Mörkare röd vid hover */
+    background-color: #d32f2f;
 }
-
 
 .finish-button:active {
-    transform: scale(0.95); /* Mindre vid klick */
+    transform: scale(0.95);
 }
 
-.scale-button {
+.scale-button, .option-button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -126,12 +131,12 @@
     border: 2px solid #6200EA;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
-    width: 150px; /* Halvera bredden jämfört med option-button */
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    width: 50px; /* Ange en fast bredd för att göra alla svarsalternativ lika stora */
     text-align: center; /* Centrera texten horisontellt */
 }
 
-.scale-button:hover {
+.scale-button:hover, .option-button:hover {
     background-color: #4b0082;
     color: white;
     transform: scale(1.05);
