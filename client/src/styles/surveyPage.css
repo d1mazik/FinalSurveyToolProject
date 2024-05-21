@@ -1,90 +1,106 @@
 /* surveyPage.css */
 
+:root {
+    --primary-color: #6200EA;
+    --secondary-color: #4CAF50;
+    --danger-color: #f44336;
+    --text-color: #fff;
+    --background-color: #f3f3f3;
+    --button-hover-color: #45a049;
+    --button-danger-hover-color: #d32f2f;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
 .survey-page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh;
-    background-color: #6200EA;
-    padding-top: 20px;
+    min-height: 100vh;
+    background-color: var(--primary-color);
+    padding: 20px;
 }
 
 .survey-title {
-    color: #fff;
-    font-size: 24px;
+    color: var(--text-color);
+    font-size: 2rem;
     margin-bottom: 20px;
 }
 
 .question-container {
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .question-text {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
 }
 
 .options-list,
 .scale-list {
     display: flex;
-    flex-direction: row; /* Horisontell layout */
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
     list-style: none;
-    padding: 0; /* Ta bort eventuell standard padding */
-    margin: 0; /* Ta bort eventuell standard margin */
+    padding: 0;
+    margin: 0;
 }
 
 .option-item,
 .scale-item {
-    margin-right: 10px; /* Lägg till mellanrum mellan alternativen */
+    margin-right: 10px;
 }
 
-input[type="radio"] {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #6200EA;
-    border-radius: 50%;
-    outline: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-input[type="radio"]:checked {
-    background-color: green; /* Ändra färg här */
-    border-color: green;
+input[type="radio"].hidden-radio {
+    display: none; /* Dölj radio-knapparna */
 }
 
 input[type="radio"]:checked + label {
-    background-color: green; /* Bakgrundsfärg för markerad label */
-    color: white; /* Textfärg för markerad label */
+    background-color: green;
+    color: white;
+    border-color: green;
+}
+
+.label-selected {
+    background-color: green;
+    color: white;
     border-color: green;
 }
 
 .text-input {
-    width: 30%;
-    padding: 3px;
+    width: 80%;
+    padding: 10px;
     margin-bottom: 20px;
-    border: 2px solid #6200EA;
+    border: 2px solid var(--primary-color);
     border-radius: 5px;
     background: white;
     outline: none;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: border-color 0.3s ease-in-out;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .text-input:focus {
     border-color: #4b0082;
 }
 
-.next-button {
+.button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 1rem;
     color: white;
-    background-color: #4CAF50;
+    background-color: var(--secondary-color);
     border: none;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -92,30 +108,19 @@ input[type="radio"]:checked + label {
     transition: background-color 0.3s ease;
     width: auto;
     display: inline-block;
-    margin-top: 20px; /* Lägg till marginal över knappen */
+    margin-top: 20px;
 }
 
-.next-button:hover {
-    background-color: #45a049;
+.button:hover {
+    background-color: var(--button-hover-color);
 }
 
 .finish-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: #f44336;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: auto;
-    display: inline-block;
-    margin-top: 20px; /* Lägg till marginal över knappen */
+    background-color: var(--danger-color);
 }
 
 .finish-button:hover {
-    background-color: #d32f2f;
+    background-color: var(--button-danger-hover-color);
 }
 
 .finish-button:active {
@@ -124,20 +129,26 @@ input[type="radio"]:checked + label {
 
 .scale-button, .option-button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     background-color: white;
-    color: #6200EA;
-    border: 2px solid #6200EA;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    width: 50px; /* Ange en fast bredd för att göra alla svarsalternativ lika stora */
-    text-align: center; /* Centrera texten horisontellt */
+    width: 50px;
+    text-align: center;
 }
 
 .scale-button:hover, .option-button:hover {
     background-color: #4b0082;
     color: white;
     transform: scale(1.05);
+}
+
+.option-button.selected, .scale-button.selected {
+    background-color: green;
+    color: white;
+    border-color: green;
 }

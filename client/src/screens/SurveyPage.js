@@ -12,6 +12,7 @@ function SurveyPage() {
     const [surveyTitle, setSurveyTitle] = useState('');
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [currentAnswer, setCurrentAnswer] = useState({});
+    const [selectedOption, setSelectedOption] = useState(null);
     const [surveyCompleted, setSurveyCompleted] = useState(false);
     const navigate = useNavigate();
 
@@ -30,6 +31,7 @@ function SurveyPage() {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             setCurrentAnswer({});
+            setSelectedOption(null);
         } else {
             await endSession(sessionId);
             setSurveyCompleted(true);
@@ -39,10 +41,12 @@ function SurveyPage() {
 
     const handleOptionChange = (event) => {
         setCurrentAnswer({ selectedOption: event.target.value });
+        setSelectedOption(event.target.value);
     };
 
     const handleScaleChange = (event) => {
         setCurrentAnswer({ scale: parseInt(event.target.value, 10) });
+        setSelectedOption(event.target.value);
     };
 
     const handleTextChange = (event) => {
@@ -68,8 +72,12 @@ function SurveyPage() {
                                     value={option.id}
                                     checked={currentAnswer.selectedOption === option.id}
                                     onChange={handleOptionChange}
+                                    className="hidden-radio"
                                 />
-                                <label htmlFor={`option-${option.id}`} className="option-button">
+                                <label
+                                    htmlFor={`option-${option.id}`}
+                                    className={`option-button ${selectedOption === String(option.id) ? 'selected' : ''}`}
+                                >
                                     {option.text}
                                 </label>
                             </div>
@@ -88,8 +96,12 @@ function SurveyPage() {
                                     value={scale + currentQuestion.minScale}
                                     checked={currentAnswer.scale === (scale + currentQuestion.minScale)}
                                     onChange={handleScaleChange}
+                                    className="hidden-radio"
                                 />
-                                <label htmlFor={`scale-${scale + currentQuestion.minScale}`} className="scale-button">
+                                <label
+                                    htmlFor={`scale-${scale + currentQuestion.minScale}`}
+                                    className={`scale-button ${selectedOption === String(scale + currentQuestion.minScale) ? 'selected' : ''}`}
+                                >
                                     {scale + currentQuestion.minScale}
                                 </label>
                             </div>
@@ -112,15 +124,17 @@ function SurveyPage() {
     return (
         <div className="survey-page-container">
             <h1 className="survey-title">{surveyTitle}</h1>
-            <h2>{questions[currentQuestionIndex] ? questions[currentQuestionIndex].text : ''}</h2>
-            {renderQuestionInput()}
-            {!surveyCompleted && (
-                <button
-                    onClick={handleAnswerSelect}
-                    className={currentQuestionIndex < questions.length - 1 ? "next-button" : "finish-button"}>
-                    {currentQuestionIndex < questions.length - 1 ? 'Nästa' : 'Avsluta'}
-                </button>
-            )}
+            <div className="question-container">
+                <h2 className="question-text">{questions[currentQuestionIndex] ? questions[currentQuestionIndex].text : ''}</h2>
+                {renderQuestionInput()}
+                {!surveyCompleted && (
+                    <button
+                        onClick={handleAnswerSelect}
+                        className={currentQuestionIndex < questions.length - 1 ? "button next-button" : "button finish-button"}>
+                        {currentQuestionIndex < questions.length - 1 ? 'Nästa' : 'Avsluta'}
+                    </button>
+                )}
+            </div>
         </div>
     );
 }
