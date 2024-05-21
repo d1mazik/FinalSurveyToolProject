@@ -1,18 +1,15 @@
-// Import the service function in your MenuScreen component
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { startSurveySession } from '../service/surveyService'; // Adjust the path as necessary
+import { startSurveySession } from '../service/surveyService';
 import surveyLogo from "../assets/Online_Survey_Icon_or_logo.svg.png";
 import '../styles/MenuScreen.css';
-import {getUserId} from "../utils/auth";
+import { getUserId } from "../utils/auth";
 
 function MenuScreen() {
     const [surveys, setSurveys] = useState([]);
     const navigate = useNavigate();
 
-    // Placeholder function to fetch surveys, replace with actual fetching logic
     const fetchSurveys = async () => {
-        // Example fetch logic, replace with actual API call
         const response = await fetch('/api/surveys');
         const data = await response.json();
         setSurveys(data);
@@ -23,7 +20,7 @@ function MenuScreen() {
     }, []);
 
     const handleSurveyClick = async (surveyId) => {
-        const userId = getUserId(); // Fetch the userId from localStorage
+        const userId = getUserId();
         try {
             const session = await startSurveySession(surveyId, userId);
             navigate(`/survey/${surveyId}`, { state: { sessionId: session.id } });
@@ -31,7 +28,6 @@ function MenuScreen() {
             console.error('Failed to initiate survey:', error);
         }
     };
-
 
     return (
         <div className="menu-container">
@@ -46,4 +42,5 @@ function MenuScreen() {
         </div>
     );
 }
+
 export default MenuScreen;

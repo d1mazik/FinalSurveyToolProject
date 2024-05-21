@@ -1,17 +1,48 @@
+/* LoginScreen.css */
+
+:root {
+    --primary-color: #007BFF;
+    --secondary-color: #0056b3;
+    --background-color: #f0f2f5;
+    --text-color: #282c34;
+    --light-color: white;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --border-radius: 4px;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+}
+
 .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #6200EA;
+    background-color: var(--background-color);
+}
+
+.login-content {
+    display: flex;
+    align-items: stretch; /* Ensure both sections stretch equally */
+    justify-content: center;
+    width: 80%;
+    max-width: 1200px;
+    background-color: var(--light-color);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Ensure the content doesn't overflow */
 }
 
 .login-form {
-    height: auto;
-    width: 20%;
+    flex: 1;
     padding: 2rem;
-    background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 300px;
 }
 
 .form-group {
@@ -22,12 +53,6 @@
 
 .form-group img {
     margin-right: 10px;
-}
-
-.input-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
 }
 
 input[type="email"],
@@ -44,34 +69,32 @@ input[type="text"] {
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus {
-    border-bottom: 2px solid #6200EA;
+    border-bottom: 2px solid var(--primary-color);
 }
 
 button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    background-color: #6200EA;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--light-color);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--border-radius);
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #5a00d2;
+    background-color: var(--secondary-color);
 }
 
 .right-section {
-    height: 46.1vh;
-    width: 25%;
+    flex: 1;
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
 }
 
 .error-message {
@@ -93,7 +116,7 @@ button:hover {
 }
 
 .signup-link span {
-    color: #6200EA;
+    color: var(--primary-color);
     cursor: pointer;
 }
 
@@ -114,9 +137,9 @@ button:hover {
     width: 30%;
     max-width: 400px;
     margin: auto;
-    background: white;
+    background: var(--light-color);
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
     outline: none;
 }

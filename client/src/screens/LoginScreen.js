@@ -5,7 +5,7 @@ import emailIcon from "../assets/email-logo.png";
 import passwordIcon from "../assets/password-logo.png";
 import backgroundImage from "../assets/survey-backround.webp";
 import '../styles/LoginScreen.css';
-import { setToken } from '../utils/auth';  // Ensure this utility is correctly importing the updated setToken
+import { setToken } from '../utils/auth';
 
 function LoginScreen() {
     const [loginInfo, setLoginInfo] = useState({ username: '', password: '' });
@@ -16,7 +16,7 @@ function LoginScreen() {
     const navigate = useNavigate();
 
     const goToAdminPage = () => {
-        navigate('/create-survey'); // Byt ut '/create-survey' mot den faktiska sökvägen till din CreateSurveyScreen
+        navigate('/create-survey');
     };
 
 
@@ -39,7 +39,7 @@ function LoginScreen() {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json();  // Assuming the response includes token and userId
+            const data = await response.json();
             setToken(data.token, data.userId);  // Save the token and userId
             console.log('Login Success:', data);
             navigate('/menu');  // Navigate to the MenuScreen
@@ -83,87 +83,89 @@ function LoginScreen() {
 
     return (
         <div className="login-container">
-            {!showRegister ? (
-                <div className="login-form">
-                    <h2>Login</h2>
-                    <form onSubmit={handleLogin}>
-                        <div className="form-group">
-                            <img src={emailIcon} alt="Email" className="iconLogin" />
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={loginInfo.username}
-                                onChange={(e) => setLoginInfo({ ...loginInfo, username: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <img src={passwordIcon} alt="Password" className="iconLogin" />
-                            <input
-                                type="password"
-                                placeholder="Enter your password"
-                                value={loginInfo.password}
-                                onChange={(e) => setLoginInfo({ ...loginInfo, password: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <button type="submit">Login</button>
-                        <button type="button" onClick={goToAdminPage} style={{ marginTop: '10px', backgroundColor: 'black', color: 'white', cursor: 'pointer' }}>Admin</button>
-                        {errorMessage && <div className="error-message">{errorMessage}</div>}
-                        <div className="signup-link">
-                            Don't have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Signup now</span>
-                        </div>
-                    </form>
-                </div>
-            ) : (
-                <div className="login-form">
-                    <h2>Signup</h2>
-                    <form onSubmit={handleRegister}>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                placeholder="Enter your first name"
-                                value={registerInfo.firstName}
-                                onChange={(e) => setRegisterInfo({ ...registerInfo, firstName: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                placeholder="Enter your last name"
-                                value={registerInfo.lastName}
-                                onChange={(e) => setRegisterInfo({ ...registerInfo, lastName: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={registerInfo.email}
-                                onChange={(e) => setRegisterInfo({ ...registerInfo, email: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input
-                                type="password"
-                                placeholder="Enter your password"
-                                value={registerInfo.password}
-                                onChange={(e) => setRegisterInfo({ ...registerInfo, password: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <button type="submit">Signup</button>
-                        {errorMessage && <div className="error-message">{errorMessage}</div>}
-                        <div className="signup-link">
-                            Already have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Login</span>
-                        </div>
-                    </form>
-                </div>
-            )}
-            {!showRegister && <div className="right-section" style={{ backgroundImage: `url(${backgroundImage})` }}></div>}
+            <div className="login-content">
+                {!showRegister ? (
+                    <div className="login-form">
+                        <h2>Login</h2>
+                        <form onSubmit={handleLogin}>
+                            <div className="form-group">
+                                <img src={emailIcon} alt="Email" className="iconLogin" />
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    value={loginInfo.username}
+                                    onChange={(e) => setLoginInfo({ ...loginInfo, username: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <img src={passwordIcon} alt="Password" className="iconLogin" />
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    value={loginInfo.password}
+                                    onChange={(e) => setLoginInfo({ ...loginInfo, password: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <button type="submit">Login</button>
+                            <button type="button" onClick={goToAdminPage} style={{ marginTop: '10px', backgroundColor: 'black', color: 'white', cursor: 'pointer' }}>Admin</button>
+                            {errorMessage && <div className="error-message">{errorMessage}</div>}
+                            <div className="signup-link">
+                                Don't have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Signup now</span>
+                            </div>
+                        </form>
+                    </div>
+                ) : (
+                    <div className="login-form">
+                        <h2>Signup</h2>
+                        <form onSubmit={handleRegister}>
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    placeholder="Enter your first name"
+                                    value={registerInfo.firstName}
+                                    onChange={(e) => setRegisterInfo({ ...registerInfo, firstName: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="text"
+                                    placeholder="Enter your last name"
+                                    value={registerInfo.lastName}
+                                    onChange={(e) => setRegisterInfo({ ...registerInfo, lastName: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    value={registerInfo.email}
+                                    onChange={(e) => setRegisterInfo({ ...registerInfo, email: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <input
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    value={registerInfo.password}
+                                    onChange={(e) => setRegisterInfo({ ...registerInfo, password: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <button type="submit">Signup</button>
+                            {errorMessage && <div className="error-message">{errorMessage}</div>}
+                            <div className="signup-link">
+                                Already have an account? <span onClick={toggleRegister} style={{color: '#6200EA', cursor: 'pointer'}}>Login</span>
+                            </div>
+                        </form>
+                    </div>
+                )}
+                {!showRegister && <div className="right-section" style={{ backgroundImage: `url(${backgroundImage})` }}></div>}
+            </div>
 
             <Modal
                 isOpen={modalIsOpen}
