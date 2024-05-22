@@ -38,7 +38,7 @@ function CreateSurveyAndQuestionScreen() {
         try {
             const data = await createSurvey(survey);
             alert('Survey created successfully');
-            setQuestion(prev => ({ ...prev, surveyId: data.id.toString() })); // Converting ID to string if needed
+            setQuestion(prev => ({ ...prev, surveyId: data.id.toString() }));
         } catch (error) {
             alert('Error creating survey: ' + error.message);
         }
@@ -60,7 +60,7 @@ function CreateSurveyAndQuestionScreen() {
     };
 
     const navigateToEditScreen = () => {
-        navigate('/edit-survey'); // Använd rätt path som definierats i din routerkonfiguration
+        navigate('/edit-survey');
     };
 
     return (

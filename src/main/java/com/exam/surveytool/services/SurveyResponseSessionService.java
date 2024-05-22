@@ -2,7 +2,6 @@ package com.exam.surveytool.services;
 
 import com.exam.surveytool.dtos.EndSessionDTO;
 import com.exam.surveytool.dtos.SurveyResponseSessionDTO;
-import com.exam.surveytool.models.Answer;
 import com.exam.surveytool.models.Survey;
 import com.exam.surveytool.models.SurveyResponseSession;
 import com.exam.surveytool.models.User;
@@ -15,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

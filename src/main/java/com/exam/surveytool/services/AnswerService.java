@@ -63,7 +63,7 @@ public class AnswerService {
         Answer answer = answerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Answer with id " + id + " not found"));
 
-        if (answerDTO.getText() != null) {  //uppdateras den relevanta typen av frågor
+        if (answerDTO.getText() != null) {
             answer.setText(answerDTO.getText());
         }
         if (answerDTO.getSelectedOption() != null) {

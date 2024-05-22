@@ -26,32 +26,32 @@ public class SurveyResponseSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_id", nullable = false)
     @JsonBackReference
-    private Survey survey; // Associerar sessionen med en specifik undersökning.
+    private Survey survey;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Associerar sessionen med en specifik användare.
+    private User user;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<Answer> answers; // Mängd av svar associerade med sessionen.
+    private Set<Answer> answers;
 
     @Column(name = "started_at", nullable = false)
-    private LocalDateTime startedAt; // Tiden då sessionen startade.
+    private LocalDateTime startedAt;
 
     @Column(name = "isActive")
     @Getter @Setter
     private Boolean isActive;
 
     @Column(name = "ended_at")
-    private LocalDateTime endedAt; // Tiden då sessionen avslutades.
+    private LocalDateTime endedAt;
 
     @PrePersist
     protected void onStart() {
-        this.startedAt = LocalDateTime.now(); // Initiera starttiden när sessionen skapas.
+        this.startedAt = LocalDateTime.now();
     }
 
     public void endSession() {
-        this.endedAt = LocalDateTime.now(); // Sätt tiden för när sessionen avslutas.
+        this.endedAt = LocalDateTime.now();
     }
 }

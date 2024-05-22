@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Option { //varje option blir kopplat till en question
+public class Option {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

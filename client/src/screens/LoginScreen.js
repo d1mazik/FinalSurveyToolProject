@@ -40,9 +40,9 @@ function LoginScreen() {
             }
 
             const data = await response.json();
-            setToken(data.token, data.userId);  // Save the token and userId
+            setToken(data.token, data.userId);
             console.log('Login Success:', data);
-            navigate('/menu');  // Navigate to the MenuScreen
+            navigate('/menu');
         } catch (error) {
             console.error('Login Error:', error);
             setErrorMessage('Felaktig e-postadress eller lösenord.');
@@ -70,7 +70,7 @@ function LoginScreen() {
                 throw new Error(`HTTP status ${response.status}`);
             }
 
-            setModalIsOpen(true);  // Show modal on success
+            setModalIsOpen(true);
         } catch (error) {
             console.error('Registration Error:', error);
             setErrorMessage('Registrering misslyckades. Kontrollera uppgifterna och försök igen.');

@@ -67,10 +67,10 @@ function EditSurveyScreen() {
                     description: currentEdit.data.description,
                     userId: currentEdit.data.userId
                 });
-                fetchAllSurveys();  // Refresh the list
+                fetchAllSurveys();
             } else {
                 await updateQuestion(currentEdit.data.id, { text: currentEdit.data.text });
-                fetchQuestions(currentEdit.data.surveyId);  // Refresh the questions
+                fetchQuestions(currentEdit.data.surveyId);
             }
         } catch (error) {
             console.error('Error updating:', error);

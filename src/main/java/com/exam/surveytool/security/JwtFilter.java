@@ -43,16 +43,15 @@ public class JwtFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(jwt));
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                // Extract claims and set up the authentication context
+
                 Claims claims = jwtService.extractAllClaims(jwt);
-                Long userId = claims.get("userId", Long.class);  // Retrieve userId from the token claims
+                Long userId = claims.get("userId", Long.class);
 
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
 
-                // You can log or do additional handling here if needed
                 System.out.println("Authenticated user with ID: " + userId);
             }
         }

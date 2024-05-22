@@ -21,7 +21,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final SurveyRepository surveyRepository;
-    private final SurveyService surveyService;  // Lägg till referens till SurveyService
+    private final SurveyService surveyService;
 
     @Autowired
     public QuestionService(QuestionRepository questionRepository, SurveyRepository surveyRepository, SurveyService surveyService) {
@@ -39,12 +39,10 @@ public class QuestionService {
         question.setSurvey(survey);
         question.setType(questionDTO.getType());
 
-        // För TEXT, sätt texten på frågan.
         if (questionDTO.getType().equals(EQuestionType.TEXT)) {
             question.setText(questionDTO.getText());
         }
 
-        // För OPTIONS, skapa och lägg till options i 'question'.
         if (questionDTO.getType().equals(EQuestionType.OPTIONS) && questionDTO.getOptions() != null) {
             for (String optionText : questionDTO.getOptions()) {
                 Option option = new Option();
@@ -54,15 +52,12 @@ public class QuestionService {
             }
         }
 
-        // För SCALE, sätt minScale och maxScale.
         if (questionDTO.getType().equals(EQuestionType.SCALE)) {
             question.setMinScale(questionDTO.getMinScale());
             question.setMaxScale(questionDTO.getMaxScale());
             question.setText(questionDTO.getText());
         }
 
-
-        // Spara frågan i databasen
         return questionRepository.save(question);
     }
 
@@ -78,11 +73,9 @@ public class QuestionService {
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Question with id " + id + " not found"));
 
-        // Uppdatera frågans attribut
         question.setType(questionDetails.getType());
         question.setText(questionDetails.getText());
 
-        // Spara och returnera den uppdaterade frågan
         return questionRepository.save(question);
     }
 

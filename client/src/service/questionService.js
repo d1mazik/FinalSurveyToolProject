@@ -7,14 +7,13 @@ export const getSurveyTitle = async (surveyId) => {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        return data.title; // Returnerar titeln på undersökningen från API-responsen
+        return data.title;
     } catch (error) {
         console.error('Error fetching survey title:', error);
         throw error;
     }
 };
 
-// service/questionService.js
 
 // service/questionService.js
 export const getQuestionsForSurvey = async (surveyId) => {
@@ -114,7 +113,7 @@ export const submitAnswer = async (sessionId, questionId, answerData) => {
         if (!response.ok) {
             throw new Error(`Failed to submit answer: ${response.statusText}`);
         }
-        return await response.json();  // This should return the newly created or updated answer
+        return await response.json();
     } catch (error) {
         console.error('Error submitting answer:', error);
         throw error;

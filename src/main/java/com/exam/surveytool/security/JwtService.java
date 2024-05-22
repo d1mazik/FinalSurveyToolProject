@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     private final long jwtExpiration = 864000000;
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Skapar en säker nyckel för HMAC-SHA-256
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -33,8 +33,8 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        User user = (User) userDetails; // Cast to your User class if it carries the ID
-        extraClaims.put("userId", user.getId()); // Ensure your User class has getId()
+        User user = (User) userDetails;
+        extraClaims.put("userId", user.getId());
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 

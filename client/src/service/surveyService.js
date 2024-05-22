@@ -9,7 +9,7 @@ export const startSurveySession = async (surveyId, userId) => {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ surveyId, userId })  // Ensure both IDs are sent
+            body: JSON.stringify({ surveyId, userId })
         });
         if (!response.ok) {
             throw new Error(`Failed to start session: ${response.statusText}`);
@@ -69,7 +69,7 @@ export const updateSurvey = async (surveyId, surveyData) => {
         });
 
         if (!response.ok) {
-            const errorText = await response.text(); // Hämta hela felmeddelandet från servern
+            const errorText = await response.text();
             throw new Error(`Failed to update survey: ${errorText}`);
         }
 
@@ -95,10 +95,10 @@ export const deleteSurvey = async (surveyId) => {
         throw error;
     }
 };
-// Assuming this file is in src/service/surveyService.js
+//src/service/surveyService.js
 
 export const submitAnswer = async (sessionId, questionId, answer) => {
-    const token = localStorage.getItem('token');  // Make sure you are retrieving the JWT correctly
+    const token = localStorage.getItem('token');
     try {
         const response = await fetch('/api/answers', {
             method: 'POST',
@@ -115,7 +115,7 @@ export const submitAnswer = async (sessionId, questionId, answer) => {
         if (!response.ok) {
             throw new Error(`Failed to submit answer: ${response.statusText}`);
         }
-        return await response.json();  // This should return the newly created or updated answer
+        return await response.json();
     } catch (error) {
         console.error('Error submitting answer:', error);
         throw error;
@@ -130,7 +130,7 @@ export const getSurveyTitle = async (surveyId) => {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        return data.title; // Returnerar titeln på undersökningen från API-responsen
+        return data.title;
     } catch (error) {
         console.error('Error fetching survey title:', error);
         throw error;
@@ -150,9 +150,9 @@ export const endSession = async (sessionId) => {
         if (!response.ok) {
             throw new Error('Failed to end session');
         }
-        return await response.json();  // Om servern skickar tillbaka session objektet
+        return await response.json();
     } catch (error) {
         console.error('Error ending session:', error);
-        throw error;  // Kasta fel så att det kan hanteras i frontend
+        throw error;
     }
 };
