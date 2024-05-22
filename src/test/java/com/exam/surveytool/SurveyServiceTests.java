@@ -36,7 +36,7 @@ public class SurveyServiceTests {
 
     @Test
     void createSurvey_whenSuccessfullyCreated_shouldSurveyRepositorySave() {
-        //Arrange
+
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setTitle("Test Survey");
         surveyDTO.setDescription("Description");
@@ -47,16 +47,14 @@ public class SurveyServiceTests {
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        //Act
         surveyService.createSurvey(surveyDTO);
 
-        //Assert
         verify(surveyRepository).save(any(Survey.class));
     }
 
     @Test
     void createSurvey_whenUserNotFound_shouldThrowRuntimeException() {
-        //Arrange
+
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setTitle("Test Survey");
         surveyDTO.setDescription("Description");
@@ -64,7 +62,6 @@ public class SurveyServiceTests {
 
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        //Act and Assert
         Exception exception = assertThrows(RuntimeException.class, () -> {
             surveyService.createSurvey(surveyDTO);
         });
@@ -74,24 +71,21 @@ public class SurveyServiceTests {
 
     @Test
     void deleteSurvey_whenSurveyExists_shouldSurveyRepositoryDelete() {
-        // Arrange
+
         Long surveyId = 1L;
         when(surveyRepository.existsById(surveyId)).thenReturn(true);
 
-        //Act
         surveyService.deleteSurvey(surveyId);
 
-        //Assert
         verify(surveyRepository).deleteById(surveyId);
     }
 
     @Test
     void deleteSurvey_whenSurveyNotFound_shouldThrowNoSuchElementException() {
-        //Arrange
+
         Long surveyId = 1L;
         when(surveyRepository.existsById(surveyId)).thenReturn(false);
 
-        //Act and Assert
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
             surveyService.deleteSurvey(surveyId);
         });
@@ -102,7 +96,7 @@ public class SurveyServiceTests {
 
     @Test
     void updateSurvey_whenSurveyExists_shouldSurveyRepositorySave() {
-        // Arrange
+
         Long surveyId = 2L;
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setTitle("Updated Title");
@@ -115,10 +109,8 @@ public class SurveyServiceTests {
 
         when(surveyRepository.findById(surveyId)).thenReturn(Optional.of(existingSurvey));
 
-        //Act
         surveyService.updateSurvey(surveyId, surveyDTO);
 
-        //Assert
         verify(surveyRepository).save(existingSurvey);
         assertEquals("Updated Title", existingSurvey.getTitle());
         assertEquals("Updated Description", existingSurvey.getDescription());
@@ -126,7 +118,7 @@ public class SurveyServiceTests {
 
     @Test
     void updateSurvey_whenSurveyNotFound_shouldThrowNoSuchElementException() {
-        //Arrange
+
         Long surveyId = 1L;
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setTitle("Updated Title");
@@ -134,7 +126,6 @@ public class SurveyServiceTests {
 
         when(surveyRepository.findById(surveyId)).thenReturn(Optional.empty());
 
-        //Act and Assert
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
             surveyService.updateSurvey(surveyId, surveyDTO);
         });
